@@ -59,4 +59,11 @@ public class UnitTest1
         char[] a = { 'A', 'R', 'B', 'O', '_' };
         Assert.Equal(a, juego.palabra_adivinada);
     }
+
+    [Fact]
+    public void ProbarEncontrarUsuario()
+    {
+
+        Assert.Equal("Juan", Ahorcado.Data.UsuarioData.GetUsuario(1));
+    }
 }
