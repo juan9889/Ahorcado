@@ -1,12 +1,21 @@
 ﻿namespace Ahorcado.Logica;
 public class Juego
 {
+    public enum Status
+    {
+        Victoria,
+        Derrota,
+        En_Progreso
+    }
     public string palabra = "";
     public char[] palabra_adivinada;
     public char[] letras;
     public int intentos_disponibles = 6;
+    public DateTime startTime;
+    public DateTime endTime;
     public Juego(string _palabra)
     {
+        startTime = DateTime.Now;
         palabra = _palabra;
         palabra_adivinada = new char[_palabra.Length];
         letras = new char[_palabra.Length];
@@ -47,7 +56,20 @@ public class Juego
         return result;
     }
 
-  
+    public Status checkResultado()
+    {
+        if (intentos_disponibles == 0)
+        {
+            endTime = DateTime.Now;
+            return Status.Derrota;
+        }
+        if (!palabra_adivinada.Contains('_'))
+        {
+            endTime = DateTime.Now;
+            return Status.Victoria;
+        }
+        return Status.En_Progreso;
+    }
 
 }
 
