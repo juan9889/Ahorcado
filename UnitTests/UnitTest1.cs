@@ -1,5 +1,7 @@
 ﻿using Xunit;
 using Ahorcado.Logica;
+using System.Threading.Tasks;
+using System;
 
 namespace UnitTests;
 
@@ -38,6 +40,7 @@ public class UnitTest1
         juego.probarLetra('L');
         Assert.InRange(juego.intentos_disponibles, 0, 6);
         Assert.Equal(juego.letras, juego.palabra_adivinada);
+        Assert.Equal(Juego.Status.Victoria, juego.checkResultado());
         
     }
 
@@ -58,6 +61,23 @@ public class UnitTest1
         Assert.Equal(0, juego.intentos_disponibles);
         char[] a = { 'A', 'R', 'B', 'O', '_' };
         Assert.Equal(a, juego.palabra_adivinada);
+        Assert.Equal(Juego.Status.Derrota, juego.checkResultado());
+    }
+
+    [Fact]
+    public async void ProbarTiempoTranscurridoPartida()
+    {
+        Juego juego = new("ARBOL");
+        await Task.Delay(1000);
+        juego.probarLetra('A');
+        juego.probarLetra('R');
+        juego.probarLetra('B');
+        await Task.Delay(1000);
+        juego.probarLetra('O');
+        juego.probarLetra('L');
+
+        Assert.Equal(Juego.Status.Victoria, juego.checkResultado());
+        Assert.InRange((juego.endTime - juego.startTime).TotalSeconds, 2, 3);
     }
 
     [Fact]
