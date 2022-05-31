@@ -4,19 +4,18 @@ using Microsoft.Data.Sqlite;
 namespace Ahorcado.Data;
 public class UsuarioData
 {
-    static string cs = "AhorcadoDB.db";
     public static string GetUsuario(long id)
     {
         string name = "";
-        using (var connection = new SqliteConnection("Data Source=hello.db"))
+        using (SqliteConnection connection = new SqliteConnection("Data Source=D:\\back-end\\Ahorcado\\Ahorcado\\AhorcadoDB.db"))
         {
             connection.Open();
 
             var command = connection.CreateCommand();
             command.CommandText =
             @"
-        SELECT name
-        FROM user
+        SELECT *
+        FROM usuarios
         WHERE id = $id
     ";
             command.Parameters.AddWithValue("$id", id);
@@ -27,7 +26,7 @@ public class UsuarioData
                 {
                     name = reader.GetString(1);
                     Console.WriteLine(name);
-                    
+
                 }
             }
         }
@@ -36,4 +35,3 @@ public class UsuarioData
 
 
 }
-
