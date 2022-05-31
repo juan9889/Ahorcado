@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ahorcado.Logica", "Ahorcado
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{85831649-934F-4E9D-9E10-B74FE7E6BF9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ahorcado.Data", "Ahorcado.Data\Ahorcado.Data.csproj", "{F2AFE2CE-356F-4270-BC76-2E3682A0FB07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{16C378EC-F28C-48DD-921B-E9F9DDAA6F64}"
+	ProjectSection(SolutionItems) = preProject
+		AhorcadoDB.db = AhorcadoDB.db
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +28,10 @@ Global
 		{85831649-934F-4E9D-9E10-B74FE7E6BF9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85831649-934F-4E9D-9E10-B74FE7E6BF9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85831649-934F-4E9D-9E10-B74FE7E6BF9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2AFE2CE-356F-4270-BC76-2E3682A0FB07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2AFE2CE-356F-4270-BC76-2E3682A0FB07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2AFE2CE-356F-4270-BC76-2E3682A0FB07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2AFE2CE-356F-4270-BC76-2E3682A0FB07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
