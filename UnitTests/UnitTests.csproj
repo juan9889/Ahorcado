@@ -24,5 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Ahorcado.Logica\Ahorcado.Logica.csproj" />
     <ProjectReference Include="..\Ahorcado.Data\Ahorcado.Data.csproj" />
+    <ProjectReference Include="..\Ahorcado.Entidades\Ahorcado.Entidades.csproj" />
   </ItemGroup>
 </Project>
