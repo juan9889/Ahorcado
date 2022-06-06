@@ -3,14 +3,15 @@ using Microsoft.Data.Sqlite;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using Ahorcado.Entidades;
 
 namespace Ahorcado.Data;
 public class UsuarioData : Context
 {
-    public static string GetUsuario(long id)
+    public static Usuario GetUsuario(long id)
     {
         string name = "";
-        
+        Usuario usuario = new();
         using (SqliteConnection connection = new SqliteConnection(getConnectionString()))
         {
             connection.Open();
@@ -18,20 +19,23 @@ public class UsuarioData : Context
             var command = connection.CreateCommand();
             command.CommandText = "SELECT * FROM usuarios WHERE id = $id";
             command.Parameters.AddWithValue("$id", id);
-
+            
             using (var reader = command.ExecuteReader())
             {
                 if (reader.Read())
                 {
-                    name = reader.GetString(1);
-                    Console.WriteLine(name);
+                    usuario.ID= reader.GetInt32(0);
+                    usuario.Nombre = reader.GetString(1);
+                    usuario.Clave = reader.GetString(2);
+                    
 
                 }
             }
         }
-        return name;
+        return usuario;
     }
-    
+
+    //public static int RegistrarUsuario
 
 
 }
