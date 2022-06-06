@@ -13,4 +13,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.Sqlite" Version="6.0.5" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ahorcado.Entidades\Ahorcado.Entidades.csproj" />
+  </ItemGroup>
 </Project>

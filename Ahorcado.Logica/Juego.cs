@@ -53,6 +53,10 @@ public class Juego
         {
             intentos_disponibles--;
         }
+        if (checkResultado() != Status.En_Progreso)
+        {
+
+        }
         return result;
     }
 
