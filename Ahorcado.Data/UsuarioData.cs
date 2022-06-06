@@ -32,8 +32,37 @@ public class UsuarioData : Context
                 }
             }
         }
+
         return usuario;
     }
+
+    public static bool RegistrarUsuario(Usuario us)
+    {
+        bool result = false;
+        Usuario usuario = new();
+        using (SqliteConnection connection = new SqliteConnection(getConnectionString()))
+        {
+            connection.Open();
+
+            var command = connection.CreateCommand();
+            command.CommandText = "INSERT INTO usuarios(nombre, pass) VALUES($nombre, $pass)";
+            command.Parameters.AddWithValue("$nombre", us.Nombre);
+            command.Parameters.AddWithValue("$pass", us.Clave);
+
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    result = true;
+
+
+                }
+            }
+        }
+
+        return result;
+    }
+
 
     //public static int RegistrarUsuario
 
