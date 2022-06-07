@@ -1,12 +1,16 @@
-﻿namespace Ahorcado.Logica;
+﻿using Ahorcado.Data;
+using Ahorcado.Entidades;
+
+namespace Ahorcado.Logica;
 public class Juego
 {
     public enum Status
     {
-        Victoria,
+        Victoria = 1,
         Derrota,
         En_Progreso
     }
+    public int idPartida = 0;
     public string palabra = "";
     public char[] palabra_adivinada;
     public char[] letras;
@@ -55,7 +59,20 @@ public class Juego
         }
         if (checkResultado() != Status.En_Progreso)
         {
-
+            Partida partida = new();
+            partida.gano = (int)checkResultado();
+            partida.intentos_disponibles = intentos_disponibles;
+            partida.tiempo_transcurrido = (endTime - startTime).TotalMilliseconds;
+            int cantidad_letras_adivinadas = 0;
+            for (int i = 0; i < palabra.Length; i++)
+            {
+                if (palabra_adivinada[i] != '_')
+                {
+                    cantidad_letras_adivinadas++;
+                }
+            }
+            partida.cantidad_letras_adivinadas = cantidad_letras_adivinadas;
+            idPartida = JuegoData.PostResultado(partida);
         }
         return result;
     }

@@ -19,13 +19,14 @@ namespace Ahorcado.Data
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "INSERT INTO partidas VALUES ($gano, $intentos_disponibles, $tiempo_transcurrido, $cantidad_letras_adivinadas)";
+                    command.CommandText = "INSERT INTO partidas (gano,intentos_disponibles,tiempo_transcurrido,cantidad_letras_adivinadas) VALUES ($gano, $intentos_disponibles, $tiempo_transcurrido, $cantidad_letras_adivinadas)";
                     command.Parameters.AddWithValue("$gano", partida.gano);
                     command.Parameters.AddWithValue("$intentos_disponibles", partida.intentos_disponibles);
                     command.Parameters.AddWithValue("$tiempo_transcurrido", partida.tiempo_transcurrido);
                     command.Parameters.AddWithValue("$cantidad_letras_adivinadas", partida.cantidad_letras_adivinadas);
                     id = command.ExecuteNonQuery();
                 }
+                Console.WriteLine(id);
                 return id;
             }
             catch
@@ -34,7 +35,7 @@ namespace Ahorcado.Data
             }
         }
 
-        public Partida GetPartida(int id)
+        public static Partida GetPartida(int id)
         {
             Partida partida = new Partida();
             using (SqliteConnection connection = new SqliteConnection(getConnectionString()))
