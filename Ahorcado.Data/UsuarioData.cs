@@ -27,11 +27,10 @@ public class UsuarioData : Context
                     usuario.ID= reader.GetInt32(0);
                     usuario.Nombre = reader.GetString(1);
                     usuario.Clave = reader.GetString(2);
-                    
-
                 }
             }
         }
+
         return usuario;
     }
     
@@ -51,16 +50,32 @@ public class UsuarioData : Context
 
             using (var reader = command.ExecuteReader())
             {
-                if (reader.Read())
+               if (reader.Read())
                 {
-                    usuario = reader.GetString(1);
-                    Console.WriteLine(usuario);
-
+                    usuario.ID= reader.GetInt32(0);
+                    usuario.Nombre = reader.GetString(1);
+                    usuario.Clave = reader.GetString(2);
                 }
             }
         }
         return usuario;
     }
 
+    public static bool RegistrarUsuario(Usuario us)
+    {
+        bool result = false;
+        Usuario usuario = new();
+        using (SqliteConnection connection = new SqliteConnection(getConnectionString()))
+        {
+            connection.Open();
 
+            var command = connection.CreateCommand();
+            command.CommandText = "INSERT INTO usuarios(nombre, pass) VALUES($nombre, $pass)";
+            command.Parameters.AddWithValue("$nombre", us.Nombre);
+            command.Parameters.AddWithValue("$pass", us.Clave);
+         }
+        
+        result = true;
+        return result;
+    }
 }

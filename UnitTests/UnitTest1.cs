@@ -83,8 +83,20 @@ public class UnitTest1
     [Fact]
     public void ProbarEncontrarUsuario()
     {
-
         Assert.Equal("Juan", Ahorcado.Data.UsuarioData.GetUsuario(1));
+    }
+
+    [Fact]
+    public async void ProbarGuardarResultado()
+    {
+        Juego juego = new("ARBOL");
+        await Task.Delay(1000);
+        juego.probarLetra('A');
+        juego.probarLetra('R');
+        juego.probarLetra('B');
+        await Task.Delay(1000);
+        juego.probarLetra('O');
+        juego.probarLetra('L');
     }
 
     
