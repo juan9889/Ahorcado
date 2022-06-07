@@ -34,8 +34,33 @@ public class UsuarioData : Context
         }
         return usuario;
     }
+    
 
-    //public static int RegistrarUsuario
+    public static Usuario Login(string nombre, string clave)
+    {
+        Usuario usuario = new();
+        
+        using (SqliteConnection connection = new SqliteConnection(getConnectionString()))
+        {
+            connection.Open();
+            
+            var command = connection.CreateCommand();
+            command.CommandText = "SELECT * FROM usuarios WHERE nombre = $nombre AND clave = $clave" ;
+            command.Parameters.AddWithValue("$nombre", nombre);
+            command.Parameters.AddWithValue("$clave", clave);
+
+            using (var reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    usuario = reader.GetString(1);
+                    Console.WriteLine(usuario);
+
+                }
+            }
+        }
+        return usuario;
+    }
 
 
 }
