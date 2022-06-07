@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ahorcado.Data\Ahorcado.Data.csproj" />
     <ProjectReference Include="..\Ahorcado.Entidades\Ahorcado.Entidades.csproj" />
   </ItemGroup>
 </Project>

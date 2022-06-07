@@ -27,8 +27,6 @@ public class UsuarioData : Context
                     usuario.ID= reader.GetInt32(0);
                     usuario.Nombre = reader.GetString(1);
                     usuario.Clave = reader.GetString(2);
-                    
-
                 }
             }
         }

@@ -2,6 +2,8 @@
 using Ahorcado.Logica;
 using System.Threading.Tasks;
 using System;
+using Ahorcado.Data;
+using Ahorcado.Entidades;
 
 namespace UnitTests;
 
@@ -80,11 +82,11 @@ public class UnitTest1
         Assert.InRange((juego.endTime - juego.startTime).TotalSeconds, 2, 3);
     }
 
-    [Fact]
-    public void ProbarEncontrarUsuario()
-    {
-        Assert.Equal("Juan", Ahorcado.Data.UsuarioData.GetUsuario(1));
-    }
+    //[Fact]
+    //public void ProbarEncontrarUsuario()
+    //{
+    //    Assert.Equal("Juan", Ahorcado.Data.UsuarioData.GetUsuario(1));
+    //}
 
     [Fact]
     public async void ProbarGuardarResultado()
@@ -97,7 +99,11 @@ public class UnitTest1
         await Task.Delay(1000);
         juego.probarLetra('O');
         juego.probarLetra('L');
+
+        Assert.Equal(6, JuegoData.GetPartida(juego.idPartida).intentos_disponibles);
+        Assert.Equal(5, JuegoData.GetPartida(juego.idPartida).cantidad_letras_adivinadas);
+        Assert.Equal(1, JuegoData.GetPartida(juego.idPartida).gano);
+        Assert.InRange(JuegoData.GetPartida(juego.idPartida).tiempo_transcurrido, 2000, 3000);
     }
 
-    
 }
