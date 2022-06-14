@@ -1,3 +1,3 @@
 # Ahorcado
 
-![example workflow](https://github.com/github/docs/actions/workflows/build.yml/badge.svg)
+![example workflow](https://github.com/juan9889/Ahorcado/.github/workflows/build.yml/badge.svg)
