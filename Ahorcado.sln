@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ahorcado.Entidades", "Ahorcado.Entidades\Ahorcado.Entidades.csproj", "{4500A754-0614-4A43-8990-FA6850AE767A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ahorcado.UI", "Ahorcado.UI\Ahorcado.UI.csproj", "{B246B201-0522-435E-8E46-85E1A7DBB9D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{4500A754-0614-4A43-8990-FA6850AE767A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4500A754-0614-4A43-8990-FA6850AE767A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4500A754-0614-4A43-8990-FA6850AE767A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B246B201-0522-435E-8E46-85E1A7DBB9D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B246B201-0522-435E-8E46-85E1A7DBB9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B246B201-0522-435E-8E46-85E1A7DBB9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B246B201-0522-435E-8E46-85E1A7DBB9D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

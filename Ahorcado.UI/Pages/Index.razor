@@ -1,0 +1,69 @@
+﻿@page "/"
+
+
+<PageTitle>Index</PageTitle>
+
+<h1>Ahorcado</h1>
+
+
+<br />
+<br />
+
+@if (juego.checkResultado() == Juego.Status.Victoria)
+{
+    <alert class="alert alert-success">Ganaste</alert>
+}
+@if (juego.checkResultado() == Juego.Status.En_Progreso)
+{
+
+    <p>Intentos disponibles : @juego.intentos_disponibles.ToString()</p>
+    <br />
+   
+    <input id="txt_letra_a_probar" style="text-transform: uppercase;" maxlength="1" @bind-value="letra_probar" />
+
+    <br />
+    <br />
+    <button class="btn btn-info" @onclick="ProbarLetra">Probar letra</button>
+
+    
+}
+@if (juego.checkResultado() == Juego.Status.Derrota)
+{
+    <alert class="alert alert-danger">Perdiste</alert>
+}
+<br />
+<br />
+<table>
+    <tr>
+        @foreach (char letra in juego.palabra_adivinada)
+        {
+            <td>@letra </td>
+        }
+    </tr>
+</table>
+
+
+
+
+@code{
+
+    private char letra_probar;
+    List<char> letras = new();
+
+    Ahorcado.Logica.Juego? juego = null;
+    protected override async Task OnInitializedAsync()
+    {
+
+        juego = new("ARBOL");
+
+        StateHasChanged();
+
+
+    }
+    private void ProbarLetra()
+    {
+        juego.probarLetra(char.ToUpper(letra_probar));
+        StateHasChanged();
+    }
+}
+
