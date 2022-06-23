@@ -1,20 +1,77 @@
 ﻿@inherits LayoutComponentBase
 
-<PageTitle>Ahorcado.UI</PageTitle>
-
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+<PageTitle>Ahorcado</PageTitle>
+@if (autenticado == true)
+{
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu />
         </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+        <main>
+            <div class="top-row px-4">
+                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+            </div>
 
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </div>
+}
+else
+{
+
+
+
+<div class="page" style="height: 100vh">
+    
+    <div class="card" style="width: 18rem; margin: auto">
+        <div class="card-body">
+            @if (error_autenticacion)
+            {
+                <alert class="alert alert-danger">Datos incorrectos</alert>
+                <br />
+                <br />
+            }
+            <input @bind-value="texto_nombre_usuario" type="text" placeholder="Nombre de usuario" />
+            <br />
+            <br />
+            <input @bind-value="texto_password" type="password" placeholder="Contraseaña" />
+            <br />
+            <br />
+            <button class="btn btn-success" @onclick="Login">Iniciar sesion</button>
+            <br />
+            <br />
+            <button class="btn btn-primary">Crear nueva cuenta</button>
+        </div>
+    </div>
+</div>
+        }
+        @code{
+            bool autenticado = false;
+            bool error_autenticacion = false;
+            string texto_nombre_usuario = "";
+            string texto_password = "";
+            Ahorcado.Entidades.Usuario usuario = new();
+
+            private void Login()
+            {
+                usuario = Ahorcado.Data.UsuarioData.Login(texto_nombre_usuario, texto_password);
+                if (usuario.ID > 0)
+                {
+                    autenticado = true;
+                    StateHasChanged();
+                }
+                else
+                {
+                    error_autenticacion = true;
+                }
+            }
+
+            private void Registro()
+        {
+
+        }
+
+        }

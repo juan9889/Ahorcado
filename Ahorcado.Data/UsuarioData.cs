@@ -44,7 +44,7 @@ public class UsuarioData : Context
             connection.Open();
             
             var command = connection.CreateCommand();
-            command.CommandText = "SELECT * FROM usuarios WHERE nombre = $nombre AND clave = $clave" ;
+            command.CommandText = "SELECT * FROM usuarios WHERE nombre = $nombre AND pass = $clave" ;
             command.Parameters.AddWithValue("$nombre", nombre);
             command.Parameters.AddWithValue("$clave", clave);
 
