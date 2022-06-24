@@ -59,5 +59,31 @@ namespace Ahorcado.Data
             }
             return partida;
         }
+        public static List<Partida> GetPartidasUsuario(int id_usuario)
+        {
+            List<Partida> partidas = new();
+            using (SqliteConnection connection = new SqliteConnection(getConnectionString()))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+                command.CommandText = "SELECT * FROM partidas WHERE id_usuario = $id";
+                command.Parameters.AddWithValue("$id", id_usuario);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        Partida partida = new();
+                        partida.gano = reader.GetInt32(1);
+                        partida.intentos_disponibles = reader.GetInt32(2);
+                        partida.tiempo_transcurrido = reader.GetFloat(3);
+                        partida.cantidad_letras_adivinadas = reader.GetInt32(4);
+                        partidas.Add(partida);
+                    }
+                }
+            }
+            return partidas;
+        }
     }
 }

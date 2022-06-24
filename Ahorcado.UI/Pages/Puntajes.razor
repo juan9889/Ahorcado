@@ -1,0 +1,67 @@
+﻿@page "/fetchdata"
+@using Ahorcado.Entidades
+
+<PageTitle>Mis partidas</PageTitle>
+
+@using Ahorcado.UI.Data
+@inject WeatherForecastService ForecastService
+
+<h1>Mis partidas</h1>
+
+
+
+@if (partidas_usuario.Count == 0)
+{
+    <p><em>No hay partidas del usuario</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ganada</th>
+                <th>Tiempo transcurrido</th>
+                <th>Intentos disponibles</th>
+                <th>Cantidad letras adivinadas</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Partida p in partidas_usuario)
+            {
+            <tr>
+                @if (p.gano == 1)
+                {
+
+
+                    <td>Si</td>
+                }
+                else
+                {
+                    <td>No</td>
+                }
+
+                <td>@p.tiempo_transcurrido.ToString()</td>
+                <td>@p.intentos_disponibles.ToString()</td>
+                <td>@p.cantidad_letras_adivinadas.ToString()</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    [CascadingParameter]
+    public Usuario usuario { get; set; }
+
+    List<Partida> partidas_usuario = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        partidas_usuario = Ahorcado.Data.JuegoData.GetPartidasUsuario(usuario.ID);
+        StateHasChanged();
+    }
+
+
+}
+
