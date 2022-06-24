@@ -1,5 +1,5 @@
 ﻿@page "/"
-
+@using Ahorcado.Entidades
 
 <PageTitle>Index</PageTitle>
 
@@ -8,55 +8,73 @@
 
 <br />
 <br />
-
-@if (juego.checkResultado() == Juego.Status.Victoria)
-{
-    <alert class="alert alert-success">Ganaste</alert>
-}
-@if (juego.checkResultado() == Juego.Status.En_Progreso)
-{
-
-    <p>Intentos disponibles : @juego.intentos_disponibles.ToString()</p>
-    <br />
-   
-    <input id="txt_letra_a_probar" style="text-transform: uppercase;" maxlength="1" @bind-value="letra_probar" />
-
-    <br />
-    <br />
-    <button class="btn btn-info" @onclick="ProbarLetra">Probar letra</button>
-
+@if (dificultad == 0)
+    {
+<br />
+<p>Seleccione una dificultad</p>
+<br />
+<br />
+<button type="button"  @onclick="(() => SeleccionarDificultad(1))" class="btn btn-success">Facil</button>
+<button type="button" @onclick="(() => SeleccionarDificultad(2))" class="btn btn-success">Intermedio</button>
+<button type="button" @onclick="(() => SeleccionarDificultad(3))" class="btn btn-success">Dificil</button>
+    }
+    else
+    {
     
-}
-@if (juego.checkResultado() == Juego.Status.Derrota)
-{
-    <alert class="alert alert-danger">Perdiste</alert>
-}
-<br />
-<br />
-<table>
-    <tr>
-        @foreach (char letra in juego.palabra_adivinada)
+
+    @if (juego.checkResultado() == Juego.Status.Victoria)
         {
-            <td>@letra </td>
+        <alert class="alert alert-success">Ganaste</alert>
         }
-    </tr>
-</table>
+    @if (juego.checkResultado() == Juego.Status.En_Progreso)
+        {
+
+        <p>Intentos disponibles : @juego.intentos_disponibles.ToString()</p>
+        <br />
+
+        <input id="txt_letra_a_probar" style="text-transform: uppercase;" maxlength="1" @bind-value="letra_probar" />
+
+        <br />
+        <br />
+        <button class="btn btn-primary" @onclick="ProbarLetra">Probar letra</button>
 
 
+        }
+    @if (juego.checkResultado() == Juego.Status.Derrota)
+        {
+        <alert class="alert alert-danger">Perdiste</alert>
+        }
+    <br />
+    <br />
+    <table>
+        <tr>
+            @foreach (char letra in juego.palabra_adivinada)
+            {
+                <td>@letra </td>
+                }
+        </tr>
+    </table>
+    
+    }
 
 
 @code{
+    [CascadingParameter]
+    public Usuario usuario { get; set; }
+
+    int dificultad = 0;
 
     private char letra_probar;
+    bool load_finished = false;
     List<char> letras = new();
 
     Ahorcado.Logica.Juego? juego = null;
     protected override async Task OnInitializedAsync()
     {
 
-        juego = new("ARBOL");
+        //juego = new("ARBOL");
 
-        StateHasChanged();
+        //StateHasChanged();
 
 
     }
@@ -64,6 +82,31 @@
     {
         juego.probarLetra(char.ToUpper(letra_probar));
         StateHasChanged();
+    }
+
+    private void SeleccionarDificultad(int dif_n)
+    {
+        dificultad = dif_n;
+        
+        StateHasChanged();
+        Juego.Difficulty diff=new();
+        switch (dificultad)
+        {
+            case 1:
+                diff = Juego.Difficulty.Facil;
+                break;
+            case 2:
+                diff = Juego.Difficulty.Medio;
+                break;
+            case 3:
+                diff = Juego.Difficulty.Dificil;
+                break;
+        }
+        juego = new(diff);
+        
+        StateHasChanged();
+        Console.WriteLine(juego.palabra);
+
     }
 }
 
