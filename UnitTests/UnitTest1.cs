@@ -1,9 +1,7 @@
 ﻿using Xunit;
 using Ahorcado.Logica;
 using System.Threading.Tasks;
-using System;
 using Ahorcado.Data;
-using Ahorcado.Entidades;
 
 namespace UnitTests;
 
@@ -104,6 +102,13 @@ public class UnitTest1
         Assert.Equal(5, JuegoData.GetPartida(juego.idPartida).cantidad_letras_adivinadas);
         Assert.Equal(1, JuegoData.GetPartida(juego.idPartida).gano);
         Assert.InRange(JuegoData.GetPartida(juego.idPartida).tiempo_transcurrido, 2000, 3000);
+    }
+
+    [Fact]
+    public void ProbarGenerarPalabraRandom()
+    {
+        Juego juego = new(Juego.Difficulty.Medio);
+        Assert.InRange(juego.palabra.Length, 9, 13);
     }
 
 }
