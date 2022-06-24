@@ -61,18 +61,19 @@ public class UsuarioData : Context
         return usuario;
     }
 
-    public static bool RegistrarUsuario(Usuario us)
+    public static bool RegistrarUsuario(string nombre, string clave)
     {
         bool result = false;
-        Usuario usuario = new();
         using (SqliteConnection connection = new SqliteConnection(getConnectionString()))
         {
             connection.Open();
 
             var command = connection.CreateCommand();
             command.CommandText = "INSERT INTO usuarios(nombre, pass) VALUES($nombre, $pass)";
-            command.Parameters.AddWithValue("$nombre", us.Nombre);
-            command.Parameters.AddWithValue("$pass", us.Clave);
+            command.Parameters.AddWithValue("$nombre", nombre);
+            command.Parameters.AddWithValue("$pass", clave);
+
+            command.ExecuteNonQuery();
          }
         
         result = true;

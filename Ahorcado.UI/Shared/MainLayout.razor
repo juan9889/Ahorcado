@@ -10,7 +10,7 @@
 
         <main>
             <div class="top-row px-4">
-                <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+                <button class="btn btn-success" @onclick="Logout">Cerrar sesion</button>
             </div>
 
             <article class="content px-4">
@@ -45,7 +45,8 @@ else
             <button class="btn btn-success" @onclick="Login">Iniciar sesion</button>
             <br />
             <br />
-            <button class="btn btn-primary">Crear nueva cuenta</button>
+            <button class="btn btn-primary" @onclick="Registro">Crear nueva cuenta</button>
+            <br />
         </div>
     </div>
 </div>
@@ -72,8 +73,16 @@ else
             }
 
             private void Registro()
-        {
+            {
+                Ahorcado.Data.UsuarioData.RegistrarUsuario(texto_nombre_usuario, texto_password);
+                autenticado = true;
+                StateHasChanged();
+            }
 
-        }
+            private void Logout()
+            {
+                autenticado = false;
+                StateHasChanged();
+            }
 
         }
