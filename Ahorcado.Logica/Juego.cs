@@ -42,6 +42,7 @@ public class Juego
     {
         int length = generarLongitudPalabra(diff);
         palabra = getPalabraRandomPorDificultad(length);
+        palabra = palabra.ToUpper();
         if (palabra != null)
         {
             startTime = DateTime.Now;
