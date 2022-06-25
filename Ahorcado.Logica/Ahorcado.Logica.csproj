@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
   <ItemGroup>
     <ProjectReference Include="..\Ahorcado.Data\Ahorcado.Data.csproj" />
     <ProjectReference Include="..\Ahorcado.Entidades\Ahorcado.Entidades.csproj" />
