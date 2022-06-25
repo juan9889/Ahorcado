@@ -8,6 +8,8 @@
 
 <br />
 <br />
+@if (loading == false)
+    {
 @if (dificultad == 0)
     {
 <br />
@@ -20,7 +22,7 @@
     }
     else
     {
-    
+
 
     @if (juego.checkResultado() == Juego.Status.Victoria)
         {
@@ -54,9 +56,20 @@
                 }
         </tr>
     </table>
-    
+
     }
 
+
+
+            }
+            else
+            {
+<div class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+            }
 
 @code{
     [CascadingParameter]
@@ -65,7 +78,7 @@
     int dificultad = 0;
 
     private char letra_probar;
-    bool load_finished = false;
+    bool loading = false;
     List<char> letras = new();
 
     Ahorcado.Logica.Juego? juego = null;
@@ -84,11 +97,14 @@
         StateHasChanged();
     }
 
-    private void SeleccionarDificultad(int dif_n)
+    private async void SeleccionarDificultad(int dif_n)
     {
-        dificultad = dif_n;
-        
+        loading = true;
         StateHasChanged();
+        await Task.Delay(50);
+        dificultad = dif_n;
+
+        
         Juego.Difficulty diff=new();
         switch (dificultad)
         {
@@ -103,9 +119,9 @@
                 break;
         }
         juego = new(diff);
-        
+        loading = false;
         StateHasChanged();
-        Console.WriteLine(juego.palabra);
+        //Console.WriteLine(juego.palabra);
 
     }
 }
