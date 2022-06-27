@@ -62,48 +62,51 @@ else
 }
 
 @code {
-    [CascadingParameter]
-    public Usuario usuario { get; set; }
+            [CascadingParameter]
+            public Usuario usuario { get; set; }
 
-    int dificultad = 0;
+            int dificultad = 0;
 
-    private string letra_probar;
-    bool loading = false;
-    List<char> letras = new();
+    private string letra_probar="";
+        bool loading = false;
+        List<char> letras = new();
 
-    Ahorcado.Logica.Juego? juego = null;
-    protected override async Task OnInitializedAsync()
-    {
-    }
-    private void ProbarLetra()
-    {
-        juego.probarLetra(char.Parse(letra_probar.ToUpper()));
-        letra_probar = "";
-        StateHasChanged();
-    }
-
-    private async void SeleccionarDificultad(int dif_n)
-    {
-        loading = true;
-        StateHasChanged();
-        await Task.Delay(300);
-        Juego.Difficulty diff = new();
-        dificultad = dif_n;
-        switch (dif_n)
+        Ahorcado.Logica.Juego? juego = null;
+        protected override async Task OnInitializedAsync()
         {
-            case 1:
-                diff = Juego.Difficulty.Facil;
-                break;
-            case 2:
-                diff = Juego.Difficulty.Medio;
-                break;
-            case 3:
-                diff = Juego.Difficulty.Dificil;
-                break;
         }
-        juego = new(diff, usuario.ID);
-        loading = false;
-        StateHasChanged();
+        private void ProbarLetra()
+        {
+            if (letra_probar.Length == 1)
+            {
+                juego.probarLetra(char.Parse(letra_probar.ToUpper()));
+            }
+            letra_probar = "";
+            StateHasChanged();
+        }
+
+        private async void SeleccionarDificultad(int dif_n)
+        {
+            loading = true;
+            StateHasChanged();
+            await Task.Delay(300);
+            Juego.Difficulty diff = new();
+            dificultad = dif_n;
+            switch (dif_n)
+            {
+                case 1:
+                    diff = Juego.Difficulty.Facil;
+                    break;
+                case 2:
+                    diff = Juego.Difficulty.Medio;
+                    break;
+                case 3:
+                    diff = Juego.Difficulty.Dificil;
+                    break;
+            }
+            juego = new(diff, usuario.ID);
+            loading = false;
+            StateHasChanged();
+        }
     }
-}
 
