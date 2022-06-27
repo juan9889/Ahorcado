@@ -20,6 +20,7 @@ else
         <thead>
             <tr>
                 <th>Ganada</th>
+                <th>Fecha y hora</th>
                 <th>Tiempo transcurrido</th>
                 <th>Intentos disponibles</th>
                 <th>Cantidad letras adivinadas</th>
@@ -29,20 +30,18 @@ else
             @foreach (Partida p in partidas_usuario)
             {
             <tr>
-                @if (p.gano == 1)
+                @if (p.Gano == 1)
                 {
-
-
                     <td>Si</td>
                 }
                 else
                 {
                     <td>No</td>
                 }
-
-                <td>@(Math.Round(p.tiempo_transcurrido/1000, 2).ToString()) seg.</td>
-                <td>@p.intentos_disponibles.ToString()</td>
-                <td>@p.cantidad_letras_adivinadas.ToString()</td>
+                <td>@(p.StartDate.DateTime.ToString() ?? "No registrada")</td>
+                <td>@(Math.Round(p.Tiempo_transcurrido/1000, 2).ToString()) seg.</td>
+                <td>@p.Intentos_disponibles.ToString()</td>
+                <td>@p.Cantidad_letras_adivinadas.ToString()</td>
             </tr>
             }
         </tbody>
@@ -57,6 +56,11 @@ else
     List<Partida> partidas_usuario = new();
 
     protected override async Task OnInitializedAsync()
+    {
+        cargarTabla();
+    }
+
+    public void cargarTabla()
     {
         partidas_usuario = Ahorcado.Data.JuegoData.GetPartidasUsuario(usuario.ID);
         StateHasChanged();

@@ -41,7 +41,7 @@ public class UnitTest1
         Assert.InRange(juego.intentos_disponibles, 0, 6);
         Assert.Equal(juego.letras, juego.palabra_adivinada);
         Assert.Equal(Juego.Status.Victoria, juego.checkResultado());
-        
+
     }
 
     [Fact]
@@ -98,16 +98,16 @@ public class UnitTest1
         juego.probarLetra('O');
         juego.probarLetra('L');
 
-        Assert.Equal(6, JuegoData.GetPartida(juego.idPartida).intentos_disponibles);
-        Assert.Equal(5, JuegoData.GetPartida(juego.idPartida).cantidad_letras_adivinadas);
-        Assert.Equal(1, JuegoData.GetPartida(juego.idPartida).gano);
-        Assert.InRange(JuegoData.GetPartida(juego.idPartida).tiempo_transcurrido, 2000, 3000);
+        Assert.Equal(6, JuegoData.GetPartida(juego.idPartida).Intentos_disponibles);
+        Assert.Equal(5, JuegoData.GetPartida(juego.idPartida).Cantidad_letras_adivinadas);
+        Assert.Equal(1, JuegoData.GetPartida(juego.idPartida).Gano);
+        Assert.InRange(JuegoData.GetPartida(juego.idPartida).Tiempo_transcurrido, 2000, 3000);
     }
 
     [Fact]
     public void ProbarGenerarPalabraRandom()
     {
-        Juego juego = new(Juego.Difficulty.Medio);
+        Juego juego = new(Juego.Difficulty.Medio, 0);
         Assert.InRange(juego.palabra.Length, 9, 13);
     }
 

@@ -19,11 +19,13 @@ namespace Ahorcado.Data
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
-                    command.CommandText = "INSERT INTO partidas (gano,intentos_disponibles,tiempo_transcurrido,cantidad_letras_adivinadas) VALUES ($gano, $intentos_disponibles, $tiempo_transcurrido, $cantidad_letras_adivinadas)";
-                    command.Parameters.AddWithValue("$gano", partida.gano);
-                    command.Parameters.AddWithValue("$intentos_disponibles", partida.intentos_disponibles);
-                    command.Parameters.AddWithValue("$tiempo_transcurrido", partida.tiempo_transcurrido);
-                    command.Parameters.AddWithValue("$cantidad_letras_adivinadas", partida.cantidad_letras_adivinadas);
+                    command.CommandText = "INSERT INTO partidas (id_usuario,gano,intentos_disponibles,fecha,tiempo_transcurrido,cantidad_letras_adivinadas) VALUES ($id_usuario, $gano, $intentos_disponibles,$fecha, $tiempo_transcurrido, $cantidad_letras_adivinadas)";
+                    command.Parameters.AddWithValue("$id_usuario", partida.UserId);
+                    command.Parameters.AddWithValue("$gano", partida.Gano);
+                    command.Parameters.AddWithValue("$intentos_disponibles", partida.Intentos_disponibles);
+                    command.Parameters.AddWithValue("$fecha", partida.StartDate.ToString("o"));
+                    command.Parameters.AddWithValue("$tiempo_transcurrido", partida.Tiempo_transcurrido);
+                    command.Parameters.AddWithValue("$cantidad_letras_adivinadas", partida.Cantidad_letras_adivinadas);
                     id = command.ExecuteNonQuery();
                 }
                 Console.WriteLine(id);
@@ -50,10 +52,12 @@ namespace Ahorcado.Data
                 {
                     if (reader.Read())
                     {
-                        partida.gano = reader.GetInt32(1);
-                        partida.intentos_disponibles = reader.GetInt32(2);
-                        partida.tiempo_transcurrido = reader.GetFloat(3);
-                        partida.cantidad_letras_adivinadas = reader.GetInt32(4);
+                        partida.UserId = reader.GetInt32(1);
+                        partida.Gano = reader.GetInt32(2);
+                        partida.Intentos_disponibles = reader.GetInt32(3);
+                        partida.StartDate = reader.GetDateTime(4);
+                        partida.Tiempo_transcurrido = reader.GetFloat(5);
+                        partida.Cantidad_letras_adivinadas = reader.GetInt32(6);
                     }
                 }
             }
@@ -72,13 +76,15 @@ namespace Ahorcado.Data
 
                 using (var reader = command.ExecuteReader())
                 {
-                    if (reader.Read())
+                    while (reader.Read())
                     {
                         Partida partida = new();
-                        partida.gano = reader.GetInt32(1);
-                        partida.intentos_disponibles = reader.GetInt32(2);
-                        partida.tiempo_transcurrido = reader.GetFloat(3);
-                        partida.cantidad_letras_adivinadas = reader.GetInt32(4);
+                        partida.UserId = reader.GetInt32(1);
+                        partida.Gano = reader.GetInt32(2);
+                        partida.Intentos_disponibles = reader.GetInt32(3);
+                        partida.StartDate = reader.GetDateTime(4);
+                        partida.Tiempo_transcurrido = reader.GetFloat(5);
+                        partida.Cantidad_letras_adivinadas = reader.GetInt32(6);
                         partidas.Add(partida);
                     }
                 }

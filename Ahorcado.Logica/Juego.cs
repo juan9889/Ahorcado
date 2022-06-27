@@ -17,6 +17,8 @@ public class Juego
         Medio,
         Dificil
     }
+    public long userId;
+    public DateTimeOffset startDate;
     public string response;
     public int idPartida = 0;
     public string palabra = "";
@@ -38,7 +40,7 @@ public class Juego
         letras = palabra.ToCharArray();
     }
 
-    public Juego(Difficulty diff)
+    public Juego(Difficulty diff, long userId)
     {
         int length = generarLongitudPalabra(diff);
         palabra = getPalabraRandomPorDificultad(length);
@@ -46,6 +48,8 @@ public class Juego
         if (palabra != null)
         {
             startTime = DateTime.Now;
+            startDate = startTime;
+            this.userId = userId;
             palabra_adivinada = new char[length];
             letras = new char[length];
             for (int a = 0; a < length; a++)
@@ -124,9 +128,9 @@ public class Juego
         if (checkResultado() != Status.En_Progreso)
         {
             Partida partida = new();
-            partida.gano = (int)checkResultado();
-            partida.intentos_disponibles = intentos_disponibles;
-            partida.tiempo_transcurrido = (endTime - startTime).TotalMilliseconds;
+            partida.Gano = (int)checkResultado();
+            partida.Intentos_disponibles = intentos_disponibles;
+            partida.Tiempo_transcurrido = (endTime - startTime).TotalMilliseconds;
             int cantidad_letras_adivinadas = 0;
             for (int i = 0; i < palabra.Length; i++)
             {
@@ -135,7 +139,9 @@ public class Juego
                     cantidad_letras_adivinadas++;
                 }
             }
-            partida.cantidad_letras_adivinadas = cantidad_letras_adivinadas;
+            partida.Cantidad_letras_adivinadas = cantidad_letras_adivinadas;
+            partida.UserId = userId;
+            partida.StartDate = startDate;
             idPartida = JuegoData.PostResultado(partida);
         }
         return result;

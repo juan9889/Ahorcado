@@ -4,96 +4,81 @@
 <PageTitle>Index</PageTitle>
 
 <h1>Ahorcado</h1>
-
-
 <br />
 <br />
 @if (loading == false)
+{
+    @if (dificultad == 0)
     {
-@if (dificultad == 0)
-    {
-<br />
-<p>Seleccione una dificultad</p>
-<br />
-<br />
-<button type="button"  @onclick="(() => SeleccionarDificultad(1))" class="btn btn-success">Facil</button>
-<button type="button" @onclick="(() => SeleccionarDificultad(2))" class="btn btn-success">Intermedio</button>
-<button type="button" @onclick="(() => SeleccionarDificultad(3))" class="btn btn-success">Dificil</button>
+        <br />
+        <p>Seleccione una dificultad</p>
+        <br />
+        <br />
+        <button type="button" @onclick="(() => SeleccionarDificultad(1))" class="btn btn-success">Facil</button>
+        <button type="button" @onclick="(() => SeleccionarDificultad(2))" class="btn btn-success">Intermedio</button>
+        <button type="button" @onclick="(() => SeleccionarDificultad(3))" class="btn btn-success">Dificil</button>
     }
     else
     {
-
-
-    @if (juego.checkResultado() == Juego.Status.Victoria)
-        {
-        <alert class="alert alert-success">Ganaste</alert>
-        }
-    @if (juego.checkResultado() == Juego.Status.En_Progreso)
-        {
-
         <p>Intentos disponibles : @juego.intentos_disponibles.ToString()</p>
         <br />
-
-        <input id="txt_letra_a_probar" style="text-transform: uppercase;" maxlength="1" @bind-value="letra_probar" />
-
-        <br />
-        <br />
-        <button class="btn btn-primary" @onclick="ProbarLetra">Probar letra</button>
-
-
-        }
-    @if (juego.checkResultado() == Juego.Status.Derrota)
+        @if (juego.checkResultado() == Juego.Status.Victoria)
         {
-        <alert class="alert alert-danger">Perdiste</alert>
+            <alert class="alert alert-success">Ganaste</alert>
         }
-    <br />
-    <br />
-    <table>
-        <tr>
-            @foreach (char letra in juego.palabra_adivinada)
-            {
-                <td>@letra </td>
+        @if (juego.checkResultado() == Juego.Status.En_Progreso)
+        {
+
+            <input id="txt_letra_a_probar" style="text-transform: uppercase;" maxlength="1" @bind-value="letra_probar" />
+
+            <br />
+            <br />
+            <button class="btn btn-primary" @onclick="ProbarLetra">Probar letra</button>
+        }
+        @if (juego.checkResultado() == Juego.Status.Derrota)
+        {
+            <alert class="alert alert-danger">Perdiste</alert>
+        }
+        <br />
+        <br />
+        <table>
+            <tr>
+                @foreach (char letra in juego.palabra_adivinada)
+                {
+                    <td>@letra </td>
                 }
-        </tr>
-    </table>
+            </tr>
+        </table>
 
     }
-
-
-
-            }
-            else
-            {
-<div class="d-flex justify-content-center">
-    <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
+}
+else
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
-</div>
-            }
+}
 
-@code{
+@code {
     [CascadingParameter]
     public Usuario usuario { get; set; }
 
     int dificultad = 0;
 
-    private char letra_probar;
+    private string letra_probar;
     bool loading = false;
     List<char> letras = new();
 
     Ahorcado.Logica.Juego? juego = null;
     protected override async Task OnInitializedAsync()
     {
-
-        //juego = new("ARBOL");
-
-        //StateHasChanged();
-
-
     }
     private void ProbarLetra()
     {
-        juego.probarLetra(char.ToUpper(letra_probar));
+        juego.probarLetra(char.Parse(letra_probar.ToUpper()));
+        letra_probar = "";
         StateHasChanged();
     }
 
@@ -101,12 +86,10 @@
     {
         loading = true;
         StateHasChanged();
-        await Task.Delay(50);
+        await Task.Delay(300);
+        Juego.Difficulty diff = new();
         dificultad = dif_n;
-
-        
-        Juego.Difficulty diff=new();
-        switch (dificultad)
+        switch (dif_n)
         {
             case 1:
                 diff = Juego.Difficulty.Facil;
@@ -118,11 +101,9 @@
                 diff = Juego.Difficulty.Dificil;
                 break;
         }
-        juego = new(diff);
+        juego = new(diff, usuario.ID);
         loading = false;
         StateHasChanged();
-        //Console.WriteLine(juego.palabra);
-
     }
 }
 

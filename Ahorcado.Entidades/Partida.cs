@@ -9,9 +9,11 @@ namespace Ahorcado.Entidades
     public class Partida
     {
         public int Id { get; set; }
-        public int gano { get; set; }
-        public int intentos_disponibles { get; set; }
-        public double tiempo_transcurrido { get; set; }
-        public int cantidad_letras_adivinadas { get; set; }
+        public long UserId { get; set; }
+        public int Gano { get; set; }
+        public int Intentos_disponibles { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+        public double Tiempo_transcurrido { get; set; }
+        public int Cantidad_letras_adivinadas { get; set; }
     }
 }
