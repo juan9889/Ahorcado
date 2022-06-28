@@ -14,17 +14,18 @@
         <p>Seleccione una dificultad</p>
         <br />
         <br />
-        <button type="button" @onclick="(() => SeleccionarDificultad(1))" class="btn btn-success">Facil</button>
+        <button type="button" @onclick="(() => SeleccionarDificultad(1))" class="btn btn-success" id="btn_elegir_facil">Facil</button>
         <button type="button" @onclick="(() => SeleccionarDificultad(2))" class="btn btn-success">Intermedio</button>
         <button type="button" @onclick="(() => SeleccionarDificultad(3))" class="btn btn-success">Dificil</button>
     }
     else
     {
+        <input type="hidden" value="@palabra_correcta" id="txt_palabra_correcta" />
         <p>Intentos disponibles : @juego.intentos_disponibles.ToString()</p>
         <br />
         @if (juego.checkResultado() == Juego.Status.Victoria)
         {
-            <alert class="alert alert-success">Ganaste</alert>
+            <alert id="alert" value="ganaste" class="alert alert-success">Ganaste</alert>
         }
         @if (juego.checkResultado() == Juego.Status.En_Progreso)
         {
@@ -33,11 +34,11 @@
 
             <br />
             <br />
-            <button class="btn btn-primary" @onclick="ProbarLetra">Probar letra</button>
+            <button class="btn btn-primary" id="btn_probar_letra" @onclick="ProbarLetra">Probar letra</button>
         }
         @if (juego.checkResultado() == Juego.Status.Derrota)
         {
-            <alert class="alert alert-danger">Perdiste</alert>
+            <alert id="alert" value="perdiste" class="alert alert-danger">Perdiste</alert>
         }
         <br />
         <br />
@@ -62,51 +63,54 @@ else
 }
 
 @code {
-            [CascadingParameter]
-            public Usuario usuario { get; set; }
+    [CascadingParameter]
+    public Usuario usuario { get; set; }
 
-            int dificultad = 0;
-
+    int dificultad = 0;
+    string palabra_correcta = "";
     private string letra_probar="";
-        bool loading = false;
-        List<char> letras = new();
+    bool loading = false;
+    List<char> letras = new();
 
-        Ahorcado.Logica.Juego? juego = null;
-        protected override async Task OnInitializedAsync()
+    Ahorcado.Logica.Juego? juego = null;
+    protected override async Task OnInitializedAsync()
+    {
+    }
+    private void ProbarLetra()
+    {
+        if (letra_probar.Length == 1)
         {
+            juego.probarLetra(char.Parse(letra_probar.ToUpper()));
         }
-        private void ProbarLetra()
-        {
-            if (letra_probar.Length == 1)
-            {
-                juego.probarLetra(char.Parse(letra_probar.ToUpper()));
-            }
-            letra_probar = "";
-            StateHasChanged();
-        }
+        letra_probar = "";
+        StateHasChanged();
+    }
 
-        private async void SeleccionarDificultad(int dif_n)
+    private async void SeleccionarDificultad(int dif_n)
+    {
+        loading = true;
+        StateHasChanged();
+        await Task.Delay(300);
+        Juego.Difficulty diff = new();
+        dificultad = dif_n;
+        switch (dif_n)
         {
-            loading = true;
-            StateHasChanged();
-            await Task.Delay(300);
-            Juego.Difficulty diff = new();
-            dificultad = dif_n;
-            switch (dif_n)
-            {
-                case 1:
-                    diff = Juego.Difficulty.Facil;
-                    break;
-                case 2:
-                    diff = Juego.Difficulty.Medio;
-                    break;
-                case 3:
-                    diff = Juego.Difficulty.Dificil;
-                    break;
-            }
-            juego = new(diff, usuario.ID);
-            loading = false;
-            StateHasChanged();
+            case 1:
+                diff = Juego.Difficulty.Facil;
+                break;
+            case 2:
+                diff = Juego.Difficulty.Medio;
+                break;
+            case 3:
+                diff = Juego.Difficulty.Dificil;
+                break;
         }
+        //juego = new(diff, usuario.ID);
+        juego = new("ARBOL");
+        juego.userId = usuario.ID;
+        loading = false;
+        palabra_correcta = juego.palabra;
+        StateHasChanged();
+    }
     }
 
