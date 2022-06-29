@@ -21,10 +21,12 @@
     else if (juego is not null)
     {
         <p>Intentos disponibles : @juego.IntentosDisponibles.ToString()</p>
+        <input type="hidden" value="@palabra_correcta" id="txt_palabra_correcta" />
+        <p>Intentos disponibles : @juego.intentos_disponibles.ToString()</p>
         <br />
         @if (juego.CheckResultado() == Juego.Status.Victoria)
         {
-            <alert class="alert alert-success">Ganaste</alert>
+            <alert id="alert" value="ganaste" class="alert alert-success">Ganaste</alert>
         }
         @if (juego.CheckResultado() == Juego.Status.EnProgreso)
         {
@@ -37,7 +39,7 @@
         }
         @if (juego.CheckResultado() == Juego.Status.Derrota)
         {
-            <alert class="alert alert-danger">Perdiste</alert>
+            <alert id="alert" value="perdiste" class="alert alert-danger">Perdiste</alert>
         }
         <br />
         <br />
@@ -66,8 +68,8 @@ else
     public Usuario? usuario { get; set; }
 
     int dificultad = 0;
-
-    private string letra_probar = "";
+    string palabra_correcta = "";
+    private string letra_probar="";
     bool loading = false;
     List<char> letras = new();
 

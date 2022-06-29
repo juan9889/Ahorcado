@@ -36,13 +36,13 @@ else
                 <br />
                 <br />
             }
-            <input @bind-value="texto_nombre_usuario" type="text" placeholder="Nombre de usuario" />
+            <input @bind-value="texto_nombre_usuario" type="text" id="txt_nombreusuario" placeholder="Nombre de usuario" />
             <br />
             <br />
-            <input @bind-value="texto_password" type="password" placeholder="Contraseña" />
+            <input @bind-value="texto_password" type="password" id="txt_password" placeholder="Contraseña" />
             <br />
             <br />
-            <button class="btn btn-success" @onclick="Login">Iniciar sesion</button>
+            <button class="btn btn-success" id="btn_login" @onclick="Login">Iniciar sesion</button>
             <br />
             <br />
             <button class="btn btn-primary" @onclick="Registro">Crear nueva cuenta</button>
