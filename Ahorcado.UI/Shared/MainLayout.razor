@@ -16,7 +16,7 @@
             <article class="content px-4">
                 <CascadingValue Value="@usuario">
                     @Body
-                    </CascadingValue>
+                </CascadingValue>
             </article>
         </main>
     </div>
@@ -26,63 +26,73 @@ else
 
 
 
-<div class="page" style="height: 100vh">
-    
-    <div class="card" style="width: 18rem; margin: auto">
-        <div class="card-body">
-            @if (error_autenticacion)
-            {
-                <alert class="alert alert-danger">Datos incorrectos</alert>
+    <div class="page" style="height: 100vh">
+
+        <div class="card" style="width: 18rem; margin: auto">
+            <div class="card-body">
+                @if (error_autenticacion)
+                {
+                    <alert class="alert alert-danger">Datos incorrectos</alert>
+                    <br />
+                    <br />
+                }
+                <input @bind-value="texto_nombre_usuario" type="text" id="txt_nombreusuario" placeholder="Nombre de usuario" @onkeyup="@Enter" />
                 <br />
                 <br />
-            }
-            <input @bind-value="texto_nombre_usuario" type="text" id="txt_nombreusuario" placeholder="Nombre de usuario" />
-            <br />
-            <br />
-            <input @bind-value="texto_password" type="password" id="txt_password" placeholder="Contraseña" />
-            <br />
-            <br />
-            <button class="btn btn-success" id="btn_login" @onclick="Login">Iniciar sesion</button>
-            <br />
-            <br />
-            <button class="btn btn-primary" @onclick="Registro">Crear nueva cuenta</button>
-            <br />
+                <input @bind-value="texto_password" type="password" id="txt_password" placeholder="Contraseña" @onkeyup="@Enter" />
+                <br />
+                <br />
+                <button class="btn btn-success" id="btn_login" @onclick="Login" disabled="@(string.IsNullOrEmpty(texto_nombre_usuario) || texto_password.Length < 4)">Iniciar sesion</button>
+                <br />
+                <br />
+                <button class="btn btn-primary" @onclick="Registro" disabled="@(string.IsNullOrEmpty(texto_nombre_usuario) || texto_password.Length < 4)">Crear nueva cuenta</button>
+                <br />
+            </div>
         </div>
     </div>
-</div>
+}
+@code {
+    bool autenticado = false;
+    bool error_autenticacion = false;
+    string texto_nombre_usuario = "";
+    string texto_password = "";
+    Ahorcado.Entidades.Usuario usuario = new();
+
+    private void Login()
+    {
+        usuario = Ahorcado.Data.UsuarioData.Login(texto_nombre_usuario, texto_password);
+        if (usuario.ID > 0)
+        {
+            autenticado = true;
+            StateHasChanged();
         }
-        @code{
-            bool autenticado = false;
-            bool error_autenticacion = false;
-            string texto_nombre_usuario = "";
-            string texto_password = "";
-            Ahorcado.Entidades.Usuario usuario = new();
+        else
+        {
+            error_autenticacion = true;
+        }
+    }
 
-            private void Login()
+    private void Enter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            if (!string.IsNullOrEmpty(texto_nombre_usuario) && texto_password.Length >= 4)
             {
-                usuario = Ahorcado.Data.UsuarioData.Login(texto_nombre_usuario, texto_password);
-                if (usuario.ID > 0)
-                {
-                    autenticado = true;
-                    StateHasChanged();
-                }
-                else
-                {
-                    error_autenticacion = true;
-                }
+                Login();
             }
+        }
+    }
 
-            private void Registro()
-            {
-                Ahorcado.Data.UsuarioData.RegistrarUsuario(texto_nombre_usuario, texto_password);
-                autenticado = true;
-                StateHasChanged();
-            }
+    private void Registro()
+    {
+        Ahorcado.Data.UsuarioData.RegistrarUsuario(texto_nombre_usuario, texto_password);
+        Login();
+    }
 
-            private void Logout()
-            {
-                autenticado = false;
-                StateHasChanged();
-            }
+    private void Logout()
+    {
+        autenticado = false;
+        StateHasChanged();
+    }
 
         }
