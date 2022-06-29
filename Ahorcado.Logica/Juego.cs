@@ -5,11 +5,14 @@ using System.Text.Json;
 namespace Ahorcado.Logica;
 public class Juego
 {
+    private const string SCHEMA = "https://";
+    private const string BASE_URL = "palabras-aleatorias-public-api.herokuapp.com";
+
     public enum Status
     {
         Victoria = 1,
         Derrota,
-        En_Progreso
+        EnProgreso
     }
     public enum Difficulty
     {
@@ -17,69 +20,78 @@ public class Juego
         Medio,
         Dificil
     }
-    public long userId;
-    public DateTimeOffset startDate;
-    public string response;
-    public int idPartida = 0;
-    public string palabra = "";
-    public char[] palabra_adivinada;
-    public char[] letras;
-    public int intentos_disponibles = 6;
-    public DateTime startTime;
-    public DateTime endTime;
+
+    public string Palabra { get; set; }
+    public long UserId { get; set; }
+    public DateTimeOffset StartDate { get; set; }
+    public int IdPartida { get; set; }
+    public char[] PalabraAdivinada { get; set; }
+    public char[] Letras { get; set; }
+    public int IntentosDisponibles { get; set; } = 6;
+    public DateTime StartTime { get; set; }
+    public DateTime EndTime { get; set; }
+
     public Juego(string _palabra)
     {
-        startTime = DateTime.Now;
-        palabra = _palabra;
-        palabra_adivinada = new char[_palabra.Length];
-        letras = new char[_palabra.Length];
-        for (int a = 0; a < palabra.Length; a++)
+        StartTime = DateTime.Now;
+        Palabra = _palabra;
+        PalabraAdivinada = new char[_palabra.Length];
+        Letras = new char[_palabra.Length];
+        for (int a = 0; a < Palabra.Length; a++)
         {
-            palabra_adivinada[a] = '_';
+            PalabraAdivinada[a] = '_';
         }
-        letras = palabra.ToCharArray();
+        Letras = Palabra.ToCharArray();
     }
 
     public Juego(Difficulty diff, long userId)
     {
-        int length = generarLongitudPalabra(diff);
-        palabra = getPalabraRandomPorDificultad(length);
-        palabra = palabra.ToUpper();
-        if (palabra != null)
+        int length = GenerarLongitudPalabra(diff);
+        PalabraAdivinada = new char[length];
+        Letras = new char[length];
+        Palabra = GetPalabraRandomPorDificultad(length);
+        if (Palabra != "")
         {
-            startTime = DateTime.Now;
-            startDate = startTime;
-            this.userId = userId;
-            palabra_adivinada = new char[length];
-            letras = new char[length];
+            Palabra = Palabra.ToUpper();
+            StartTime = DateTime.Now;
+            StartDate = StartTime;
+            UserId = userId;
             for (int a = 0; a < length; a++)
             {
-                palabra_adivinada[a] = '_';
+                PalabraAdivinada[a] = '_';
             }
-            letras = palabra.ToCharArray();
+            Letras = Palabra.ToCharArray();
         }
     }
 
-    private string? getPalabraRandomPorDificultad(int length)
+    private static string GetPalabraRandomPorDificultad(int length)
     {
-        using (var client = new HttpClient())
+        using HttpClient client = new();
+        client.BaseAddress = new Uri(SCHEMA + BASE_URL);
+        var responseTask = client.GetAsync($"/random-by-length?length={length}");
+        responseTask.Wait();
+        var result = responseTask.Result;
+        if (result.IsSuccessStatusCode)
         {
-            client.BaseAddress = new Uri("https://palabras-aleatorias-public-api.herokuapp.com/");
-            var responseTask = client.GetAsync($"random-by-length?length={length}");
-            responseTask.Wait();
-            var result = responseTask.Result;
-            if (result.IsSuccessStatusCode)
+            var readTask = result.Content.ReadAsStringAsync();
+            readTask.Wait();
+            GetRandomWordResponse? res = JsonSerializer.Deserialize<GetRandomWordResponse>(readTask.Result);
+            if (res is not null && res.body is not null && res.body.Word is not null)
             {
-                var readTask = result.Content.ReadAsStringAsync();
-                readTask.Wait();
-                GetRandomWordResponse? res = JsonSerializer.Deserialize<GetRandomWordResponse>(readTask.Result);
-                return res?.body?.Word;
+                return res.body.Word;
             }
-            return null;
+            else
+            {
+                return "";
+            }
+        }
+        else
+        {
+            return "";
         }
     }
 
-    private int generarLongitudPalabra(Difficulty diff)
+    private static int GenerarLongitudPalabra(Difficulty diff)
     {
         int length = 0;
         switch (diff)
@@ -98,10 +110,10 @@ public class Juego
     }
 
 
-    public bool probarLetra(char letra_in)
+    public bool ProbarLetra(char letra_in)
     {
         bool result = false;
-        foreach (char letra in letras)
+        foreach (char letra in Letras)
         {
             if (letra == letra_in)
             {
@@ -112,60 +124,63 @@ public class Juego
         if (result)
         {
             int i = 0;
-            foreach (char l in letras)
+            foreach (char l in Letras)
             {
                 if (l == letra_in)
                 {
-                    palabra_adivinada[i] = letra_in;
+                    PalabraAdivinada[i] = letra_in;
                 }
                 i++;
             }
         }
         else
         {
-            intentos_disponibles--;
+            IntentosDisponibles--;
         }
-        if (checkResultado() != Status.En_Progreso)
+        if (CheckResultado() != Status.EnProgreso)
         {
-            Partida partida = new();
-            partida.Gano = (int)checkResultado();
-            partida.Intentos_disponibles = intentos_disponibles;
-            partida.Tiempo_transcurrido = (endTime - startTime).TotalMilliseconds;
-            int cantidad_letras_adivinadas = 0;
-            for (int i = 0; i < palabra.Length; i++)
+            Partida partida = new()
             {
-                if (palabra_adivinada[i] != '_')
+                Gano = (int)CheckResultado(),
+                Intentos_disponibles = IntentosDisponibles,
+                Tiempo_transcurrido = (EndTime - StartTime).TotalMilliseconds
+            };
+            int cantidad_letras_adivinadas = 0;
+            for (int i = 0; i < Palabra.Length; i++)
+            {
+                if (PalabraAdivinada[i] != '_')
                 {
                     cantidad_letras_adivinadas++;
                 }
             }
             partida.Cantidad_letras_adivinadas = cantidad_letras_adivinadas;
-            partida.UserId = userId;
-            partida.StartDate = startDate;
-            idPartida = JuegoData.PostResultado(partida);
+            partida.UserId = UserId;
+            partida.StartDate = StartDate;
+            IdPartida = JuegoData.PostResultado(partida);
         }
         return result;
     }
 
-    public Status checkResultado()
+    public Status CheckResultado()
     {
-        if (intentos_disponibles == 0)
+        if (IntentosDisponibles == 0)
         {
-            endTime = DateTime.Now;
+            EndTime = DateTime.Now;
             return Status.Derrota;
         }
-        if (!palabra_adivinada.Contains('_'))
+        if (!PalabraAdivinada.Contains('_'))
         {
-            endTime = DateTime.Now;
+            EndTime = DateTime.Now;
             return Status.Victoria;
         }
-        return Status.En_Progreso;
+        return Status.EnProgreso;
     }
 
 }
 
 class GetRandomWordResponse
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "JSON Mapping")]
     public ResponseBody? body { get; set; }
 }
 

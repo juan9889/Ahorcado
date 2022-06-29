@@ -18,15 +18,15 @@
         <button type="button" @onclick="(() => SeleccionarDificultad(2))" class="btn btn-success">Intermedio</button>
         <button type="button" @onclick="(() => SeleccionarDificultad(3))" class="btn btn-success">Dificil</button>
     }
-    else
+    else if (juego is not null)
     {
-        <p>Intentos disponibles : @juego.intentos_disponibles.ToString()</p>
+        <p>Intentos disponibles : @juego.IntentosDisponibles.ToString()</p>
         <br />
-        @if (juego.checkResultado() == Juego.Status.Victoria)
+        @if (juego.CheckResultado() == Juego.Status.Victoria)
         {
             <alert class="alert alert-success">Ganaste</alert>
         }
-        @if (juego.checkResultado() == Juego.Status.En_Progreso)
+        @if (juego.CheckResultado() == Juego.Status.EnProgreso)
         {
 
             <input id="txt_letra_a_probar" style="text-transform: uppercase;" maxlength="1" @bind-value="letra_probar" />
@@ -35,7 +35,7 @@
             <br />
             <button class="btn btn-primary" @onclick="ProbarLetra">Probar letra</button>
         }
-        @if (juego.checkResultado() == Juego.Status.Derrota)
+        @if (juego.CheckResultado() == Juego.Status.Derrota)
         {
             <alert class="alert alert-danger">Perdiste</alert>
         }
@@ -43,7 +43,7 @@
         <br />
         <table>
             <tr>
-                @foreach (char letra in juego.palabra_adivinada)
+                @foreach (char letra in juego.PalabraAdivinada)
                 {
                     <td>@letra </td>
                 }
@@ -62,51 +62,51 @@ else
 }
 
 @code {
-            [CascadingParameter]
-            public Usuario usuario { get; set; }
+    [CascadingParameter]
+    public Usuario? usuario { get; set; }
 
-            int dificultad = 0;
+    int dificultad = 0;
 
-    private string letra_probar="";
-        bool loading = false;
-        List<char> letras = new();
+    private string letra_probar = "";
+    bool loading = false;
+    List<char> letras = new();
 
-        Ahorcado.Logica.Juego? juego = null;
-        protected override async Task OnInitializedAsync()
+    Ahorcado.Logica.Juego? juego;
+    private void ProbarLetra()
+    {
+        if (letra_probar.Length == 1)
         {
+            juego?.ProbarLetra(char.Parse(letra_probar.ToUpper()));
         }
-        private void ProbarLetra()
-        {
-            if (letra_probar.Length == 1)
-            {
-                juego.probarLetra(char.Parse(letra_probar.ToUpper()));
-            }
-            letra_probar = "";
-            StateHasChanged();
-        }
+        letra_probar = "";
+        StateHasChanged();
+    }
 
-        private async void SeleccionarDificultad(int dif_n)
+    private async void SeleccionarDificultad(int dif_n)
+    {
+        loading = true;
+        StateHasChanged();
+        await Task.Delay(300);
+        Juego.Difficulty diff = new();
+        dificultad = dif_n;
+        switch (dif_n)
         {
-            loading = true;
-            StateHasChanged();
-            await Task.Delay(300);
-            Juego.Difficulty diff = new();
-            dificultad = dif_n;
-            switch (dif_n)
-            {
-                case 1:
-                    diff = Juego.Difficulty.Facil;
-                    break;
-                case 2:
-                    diff = Juego.Difficulty.Medio;
-                    break;
-                case 3:
-                    diff = Juego.Difficulty.Dificil;
-                    break;
-            }
+            case 1:
+                diff = Juego.Difficulty.Facil;
+                break;
+            case 2:
+                diff = Juego.Difficulty.Medio;
+                break;
+            case 3:
+                diff = Juego.Difficulty.Dificil;
+                break;
+        }
+        if (usuario is not null)
+        {
             juego = new(diff, usuario.ID);
             loading = false;
             StateHasChanged();
         }
     }
+}
 

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Ahorcado.UI.Data;
+﻿using Ahorcado.UI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
