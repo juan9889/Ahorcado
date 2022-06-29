@@ -10,7 +10,7 @@ namespace Ahorcado.Data
             try
             {
                 int id = 0;
-                using (SqliteConnection connection = new SqliteConnection(getConnectionString()))
+                using (SqliteConnection connection = new(getConnectionString()))
                 {
                     connection.Open();
                     var command = connection.CreateCommand();
@@ -34,8 +34,8 @@ namespace Ahorcado.Data
 
         public static Partida GetPartida(int id)
         {
-            Partida partida = new Partida();
-            using (SqliteConnection connection = new SqliteConnection(getConnectionString()))
+            Partida partida = new();
+            using (SqliteConnection connection = new(getConnectionString()))
             {
                 connection.Open();
 
@@ -43,17 +43,15 @@ namespace Ahorcado.Data
                 command.CommandText = "SELECT * FROM partidas WHERE id = $id";
                 command.Parameters.AddWithValue("$id", id);
 
-                using (var reader = command.ExecuteReader())
+                using SqliteDataReader reader = command.ExecuteReader();
+                if (reader.Read())
                 {
-                    if (reader.Read())
-                    {
-                        partida.UserId = reader.GetInt32(1);
-                        partida.Gano = reader.GetInt32(2);
-                        partida.Intentos_disponibles = reader.GetInt32(3);
-                        partida.StartDate = reader.GetDateTime(4);
-                        partida.Tiempo_transcurrido = reader.GetFloat(5);
-                        partida.Cantidad_letras_adivinadas = reader.GetInt32(6);
-                    }
+                    partida.UserId = reader.GetInt32(1);
+                    partida.Gano = reader.GetInt32(2);
+                    partida.Intentos_disponibles = reader.GetInt32(3);
+                    partida.StartDate = reader.GetDateTime(4);
+                    partida.Tiempo_transcurrido = reader.GetFloat(5);
+                    partida.Cantidad_letras_adivinadas = reader.GetInt32(6);
                 }
             }
             return partida;
@@ -61,7 +59,7 @@ namespace Ahorcado.Data
         public static List<Partida> GetPartidasUsuario(int id_usuario)
         {
             List<Partida> partidas = new();
-            using (SqliteConnection connection = new SqliteConnection(getConnectionString()))
+            using (SqliteConnection connection = new(getConnectionString()))
             {
                 connection.Open();
 
@@ -69,19 +67,19 @@ namespace Ahorcado.Data
                 command.CommandText = "SELECT * FROM partidas WHERE id_usuario = $id";
                 command.Parameters.AddWithValue("$id", id_usuario);
 
-                using (var reader = command.ExecuteReader())
+                using SqliteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    while (reader.Read())
+                    Partida partida = new()
                     {
-                        Partida partida = new();
-                        partida.UserId = reader.GetInt32(1);
-                        partida.Gano = reader.GetInt32(2);
-                        partida.Intentos_disponibles = reader.GetInt32(3);
-                        partida.StartDate = reader.GetDateTime(4);
-                        partida.Tiempo_transcurrido = reader.GetFloat(5);
-                        partida.Cantidad_letras_adivinadas = reader.GetInt32(6);
-                        partidas.Add(partida);
-                    }
+                        UserId = reader.GetInt32(1),
+                        Gano = reader.GetInt32(2),
+                        Intentos_disponibles = reader.GetInt32(3),
+                        StartDate = reader.GetDateTime(4),
+                        Tiempo_transcurrido = reader.GetFloat(5),
+                        Cantidad_letras_adivinadas = reader.GetInt32(6)
+                    };
+                    partidas.Add(partida);
                 }
             }
             return partidas;

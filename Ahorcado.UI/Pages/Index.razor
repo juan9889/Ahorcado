@@ -20,9 +20,8 @@
     }
     else if (juego is not null)
     {
-        <p>Intentos disponibles : @juego.IntentosDisponibles.ToString()</p>
         <input type="hidden" value="@palabra_correcta" id="txt_palabra_correcta" />
-        <p>Intentos disponibles : @juego.intentos_disponibles.ToString()</p>
+        <p>Intentos disponibles : @juego.IntentosDisponibles.ToString()</p>
         <br />
         @if (juego.CheckResultado() == Juego.Status.Victoria)
         {
@@ -69,7 +68,7 @@ else
 
     int dificultad = 0;
     string palabra_correcta = "";
-    private string letra_probar="";
+    private string letra_probar = "";
     bool loading = false;
     List<char> letras = new();
 
