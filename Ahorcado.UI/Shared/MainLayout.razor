@@ -30,6 +30,12 @@ else
                     <br />
                     <br />
                 }
+                else if (error_registro)
+                {
+                    <alert class="alert alert-danger">Nombre de usuario ya existe.</alert>
+                    <br />
+                    <br />
+                }
                 <input @bind-value="texto_nombre_usuario" type="text" id="txt_nombreusuario" placeholder="Nombre de usuario" @onkeyup="@Enter" @oninput="(e) => InputChange(e, 'u')" />
                 <br />
                 <br />
@@ -49,12 +55,15 @@ else
     bool autenticado = false;
     bool credentialsValid = false;
     bool error_autenticacion = false;
+    bool error_registro = false;
     string texto_nombre_usuario = "";
     string texto_password = "";
     Ahorcado.Entidades.Usuario usuario = new();
 
     private void Login()
     {
+        error_autenticacion = false;
+
         usuario = Ahorcado.Data.UsuarioData.Login(texto_nombre_usuario, texto_password);
         if (usuario.ID > 0)
         {
@@ -103,13 +112,26 @@ else
 
     private void Registro()
     {
-        Ahorcado.Data.UsuarioData.RegistrarUsuario(texto_nombre_usuario, texto_password);
-        Login();
+        error_autenticacion = false;
+        error_registro = !Ahorcado.Data.UsuarioData.RegistrarUsuario(texto_nombre_usuario, texto_password);
+
+        if (!error_registro)
+        {
+            Login();
+            return;
+        }
+
+        StateHasChanged();
     }
 
     private void Logout()
     {
         autenticado = false;
+        error_autenticacion = false;
+        error_registro = false;
+        texto_nombre_usuario = "";
+        texto_password = "";
+
         StateHasChanged();
     }
 

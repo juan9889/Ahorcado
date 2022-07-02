@@ -58,14 +58,30 @@ public class UsuarioData : Context
 
     public static bool RegistrarUsuario(string nombre, string clave)
     {
-        using SqliteConnection connection = new(getConnectionString());
-        connection.Open();
+        var resultado = false;
+        using (SqliteConnection connection = new(getConnectionString()))
+        {
+            connection.Open();
 
-        var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO usuarios(nombre, pass) VALUES($nombre, $pass)";
-        command.Parameters.AddWithValue("$nombre", nombre);
-        command.Parameters.AddWithValue("$pass", clave);
+            var command = connection.CreateCommand();
 
-        return command.ExecuteNonQuery() > 0; 
+            command.CommandText = "SELECT count(*) FROM usuarios WHERE nombre = $nombre";
+            command.Parameters.AddWithValue("$nombre", nombre);
+
+            var count = Convert.ToInt32(command.ExecuteScalar());
+
+            if (count == 0)
+            {
+                command.Parameters.Clear();
+
+                command.CommandText = "INSERT INTO usuarios (nombre, pass) VALUES ($nombre, $pass)";
+                command.Parameters.AddWithValue("$nombre", nombre);
+                command.Parameters.AddWithValue("$pass", clave);
+
+                resultado = command.ExecuteNonQuery() > 0;
+            }
+        }
+
+        return resultado;
     }
 }
