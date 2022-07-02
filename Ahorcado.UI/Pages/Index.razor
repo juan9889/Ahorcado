@@ -14,9 +14,9 @@
         <p>Seleccione una dificultad</p>
         <br />
         <br />
-        <button type="button" @onclick="(() => SeleccionarDificultad(1))" class="btn btn-success">Facil</button>
-        <button type="button" @onclick="(() => SeleccionarDificultad(2))" class="btn btn-success">Intermedio</button>
-        <button type="button" @onclick="(() => SeleccionarDificultad(3))" class="btn btn-success">Dificil</button>
+        <button id="btn_elegir_facil" type="button" @onclick="(() => SeleccionarDificultad(1))" class="btn btn-success">Facil</button>
+        <button id="btn_elegir_medio" type="button" @onclick="(() => SeleccionarDificultad(2))" class="btn btn-success">Intermedio</button>
+        <button id="btn_elegir_dificil" type="button" @onclick="(() => SeleccionarDificultad(3))" class="btn btn-success">Dificil</button>
     }
     else if (juego is not null)
     {
@@ -34,7 +34,7 @@
 
             <br />
             <br />
-            <button class="btn btn-primary" @onclick="ProbarLetra">Probar letra</button>
+            <button id="btn_probar_letra" class="btn btn-primary" @onclick="ProbarLetra">Probar letra</button>
         }
         @if (juego.CheckResultado() == Juego.Status.Derrota)
         {
@@ -104,7 +104,14 @@ else
         }
         if (usuario is not null)
         {
-            juego = new(diff, usuario.ID);
+            if (diff == Juego.Difficulty.Facil)
+            {
+                juego = new("ARBOL");
+            }
+            else
+            {
+                juego = new(diff, usuario.ID);
+            }
             loading = false;
             StateHasChanged();
         }

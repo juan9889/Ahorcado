@@ -7,12 +7,10 @@
         <div class="sidebar">
             <NavMenu />
         </div>
-
         <main>
             <div class="top-row px-4">
                 <button class="btn btn-success" @onclick="Logout">Cerrar sesion</button>
             </div>
-
             <article class="content px-4">
                 <CascadingValue Value="@usuario">
                     @Body
@@ -23,11 +21,7 @@
 }
 else
 {
-
-
-
     <div class="page" style="height: 100vh">
-
         <div class="card" style="width: 18rem; margin: auto">
             <div class="card-body">
                 @if (error_autenticacion)
@@ -36,16 +30,16 @@ else
                     <br />
                     <br />
                 }
-                <input @bind-value="texto_nombre_usuario" type="text" id="txt_nombreusuario" placeholder="Nombre de usuario" @onkeyup="@Enter" />
+                <input @bind-value="texto_nombre_usuario" type="text" id="txt_nombreusuario" placeholder="Nombre de usuario" @onkeyup="@Enter" @oninput="(e) => InputChange(e, 'u')" />
                 <br />
                 <br />
-                <input @bind-value="texto_password" type="password" id="txt_password" placeholder="Contraseña" @onkeyup="@Enter" />
+                <input @bind-value="texto_password" type="password" id="txt_password" placeholder="Contraseña" @onkeyup="@Enter" @oninput="(e) => InputChange(e, 'p')" />
                 <br />
                 <br />
-                <button class="btn btn-success" id="btn_login" @onclick="Login" disabled="@(string.IsNullOrEmpty(texto_nombre_usuario) || texto_password.Length < 4)">Iniciar sesion</button>
+                <button class="btn btn-success" id="btn_login" @onclick="Login" disabled="@(!credentialsValid)">Iniciar sesion</button>
                 <br />
                 <br />
-                <button class="btn btn-primary" @onclick="Registro" disabled="@(string.IsNullOrEmpty(texto_nombre_usuario) || texto_password.Length < 4)">Crear nueva cuenta</button>
+                <button class="btn btn-primary" id="btn_registro" @onclick="Registro" disabled="@(!credentialsValid)">Crear nueva cuenta</button>
                 <br />
             </div>
         </div>
@@ -53,6 +47,7 @@ else
 }
 @code {
     bool autenticado = false;
+    bool credentialsValid = false;
     bool error_autenticacion = false;
     string texto_nombre_usuario = "";
     string texto_password = "";
@@ -72,15 +67,38 @@ else
         }
     }
 
+    private void AreCredentialsValid()
+    {
+        credentialsValid = IsCredentialValid(texto_nombre_usuario) && IsCredentialValid(texto_password);
+    }
+
+    private bool IsCredentialValid(string cred)
+    {
+        return (!cred.Contains(' ') && cred.Length >= 4);
+    }
+
     private void Enter(KeyboardEventArgs e)
     {
-        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        if ((e.Code == "Enter" || e.Code == "NumpadEnter") && credentialsValid)
         {
-            if (!string.IsNullOrEmpty(texto_nombre_usuario) && texto_password.Length >= 4)
-            {
-                Login();
-            }
+            Login();
         }
+    }
+
+    private void InputChange(ChangeEventArgs e, char controlName)
+    {
+        switch (controlName)
+        {
+            case 'u':
+                texto_nombre_usuario = e.Value?.ToString() ?? "";
+                break;
+            case 'p':
+                texto_password = e.Value?.ToString() ?? "";
+                break;
+            default:
+                break;
+        }
+        AreCredentialsValid();
     }
 
     private void Registro()
@@ -95,4 +113,4 @@ else
         StateHasChanged();
     }
 
-        }
+}

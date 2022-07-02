@@ -30,9 +30,11 @@ public class Juego
     public int IntentosDisponibles { get; set; } = 6;
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
+    private bool _TestGame = false;
 
     public Juego(string _palabra)
     {
+        _TestGame = true;
         StartTime = DateTime.Now;
         Palabra = _palabra;
         PalabraAdivinada = new char[_palabra.Length];
@@ -137,7 +139,7 @@ public class Juego
         {
             IntentosDisponibles--;
         }
-        if (CheckResultado() != Status.EnProgreso)
+        if (CheckResultado() != Status.EnProgreso && !_TestGame)
         {
             Partida partida = new()
             {

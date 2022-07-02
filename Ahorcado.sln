@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahorcado.Logica", "Ahorcado.Logica\Ahorcado.Logica.csproj", "{9F91019B-9DD2-4CAA-AE73-82C37A36E54B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{85831649-934F-4E9D-9E10-B74FE7E6BF9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahorcado.Logica.Test", "UnitTests\Ahorcado.Logica.Test.csproj", "{85831649-934F-4E9D-9E10-B74FE7E6BF9F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahorcado.Data", "Ahorcado.Data\Ahorcado.Data.csproj", "{F2AFE2CE-356F-4270-BC76-2E3682A0FB07}"
 EndProject
@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahorcado.Entidades", "Ahorc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahorcado.UI", "Ahorcado.UI\Ahorcado.UI.csproj", "{B246B201-0522-435E-8E46-85E1A7DBB9D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UITests", "UITests\UITests.csproj", "{BF3743A6-11A7-47AD-997A-B60D4F6AE91B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ahorcado.UI.Specs", "Ahorcado.Specs\Ahorcado.UI.Specs.csproj", "{D7054F93-5070-48AF-8975-E2ED3DC864DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{B246B201-0522-435E-8E46-85E1A7DBB9D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B246B201-0522-435E-8E46-85E1A7DBB9D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B246B201-0522-435E-8E46-85E1A7DBB9D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF3743A6-11A7-47AD-997A-B60D4F6AE91B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF3743A6-11A7-47AD-997A-B60D4F6AE91B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF3743A6-11A7-47AD-997A-B60D4F6AE91B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF3743A6-11A7-47AD-997A-B60D4F6AE91B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7054F93-5070-48AF-8975-E2ED3DC864DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7054F93-5070-48AF-8975-E2ED3DC864DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7054F93-5070-48AF-8975-E2ED3DC864DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7054F93-5070-48AF-8975-E2ED3DC864DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
