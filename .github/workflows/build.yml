@@ -51,6 +51,5 @@ jobs:
           command: /home/juan/auto-deploy
           host: ${{ secrets.PRODUCTION_HOST }}
           username: root
-          passphrase: ${{ secrets.PRODUCTION_ROOT_PASSWORD }}
           privateKey: ${{ secrets.PRODUCTION_SSH_KEY }}
           port: ${{ secrets.PRODUCTION_SSH_PORT }}
