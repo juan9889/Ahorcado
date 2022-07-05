@@ -10,6 +10,7 @@ namespace Ahorcado.Data
 		}
         public static string getConnectionString()
         {
+            string connstring = "";
             string bar = "/";
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
@@ -17,7 +18,13 @@ namespace Ahorcado.Data
             }
             var currentDirectory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
             string projectDirectory = currentDirectory.Parent.Parent.Parent.Parent.FullName;
-            return "Data Source=" + projectDirectory + bar + "AhorcadoDB.db";
+            connstring = "Data Source=" + projectDirectory + bar + "AhorcadoDB.db";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                //Esta en el servidor
+                connstring = "Data Source=AhorcadoDB.db";
+            }
+            return connstring;
 
         }
     }
