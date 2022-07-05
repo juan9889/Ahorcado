@@ -43,32 +43,15 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"juan9889_Ahorcado" /o:"juan9889" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build
+          dotnet build --no-incremental
+          dotnet test --collect "Code Coverage"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-  test:
-    name: Test
-    runs-on: windows-latest
-    needs: build
-    steps:
-      - name: Test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"juan9889_Ahorcado" /o:"juan9889" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet test
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-  deploy:
-    name: Deploy
-    runs-on: windows-latest
-    needs: test
-    steps:
-       - name: Deploy to server
-         uses: garygrossgarten/github-action-ssh@release
-         with:
+      - name: Deploy to server
+        uses: garygrossgarten/github-action-ssh@release
+        with:
           command: /home/juan/auto-deploy
           host: ${{ secrets.PRODUCTION_HOST }}
           username: root
           password: ${{ secrets.PRODUCTION_ROOT_PASSWORD }}
           port: ${{ secrets.PRODUCTION_SSH_PORT }}
+       
