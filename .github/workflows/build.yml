@@ -50,10 +50,34 @@ jobs:
           cd ../
           dotnet test --collect "Code Coverage"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          
+  test:
+    name: Test
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Run tests
+        shell: powershell
+        run: |
+          
+          dotnet build --no-incremental
+          
+          cd Ahorcado.UI
+          cmd.exe /c "start powershell.exe -NoExit -Command  ""dotnet run"""
+          cd ../
+          dotnet test --collect "Code Coverage"
+         
   deploy:
     name: Deploy
     runs-on: windows-latest
-    needs: build
+    needs: test
     steps:
       - name: Deploy to server
         uses: garygrossgarten/github-action-ssh@release
