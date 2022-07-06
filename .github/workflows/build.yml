@@ -44,8 +44,10 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"juan9889_Ahorcado" /o:"juan9889" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build --no-incremental
-          New-Service -Name "TestService" -BinaryPathName '"dotnet run /Ahorcado.UI"'
-          Start-Service -Name "TestService"
+          cd Ahorcado.UI
+          dotnet run
+          ping 127.0.0.1 -n 6 > nul
+          cd ../
           dotnet test --collect "Code Coverage"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
   deploy:
