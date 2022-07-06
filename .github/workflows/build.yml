@@ -46,7 +46,7 @@ jobs:
           dotnet build --no-incremental
           
           start /b dotnet Ahorcado.UI/bin/Debug/net6.0/Ahorcado.UI.dll
-          ping 127.0.0.1 -n 6 > nul
+          cmd.exe /c "start powershell.exe -NoExit -Command  ""dotnet run"""
           cd ../
           dotnet test --collect "Code Coverage"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
