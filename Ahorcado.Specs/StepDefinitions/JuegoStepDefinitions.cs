@@ -18,7 +18,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
 
             ChromeOptions chromeOptions = new();
             chromeOptions.AddArguments("--ignore-certificate-errors");
-            chromeOptions.AddArgument("no-sandbox");
+            //chromeOptions.AddArgument("no-sandbox");
             driver = new ChromeDriver(chromeOptions);
 
             driver.Manage().Window.Maximize();
