@@ -7,23 +7,33 @@ namespace Ahorcado.Data
     {
         public static int PostResultado(Partida partida)
         {
+            
             try
             {
                 int id = 0;
-                using (SqliteConnection connection = new(getConnectionString()))
+
+                if (partida.UserId > 0)
                 {
-                    connection.Open();
-                    var command = connection.CreateCommand();
-                    command.CommandText = "INSERT INTO partidas (id_usuario,gano,intentos_disponibles,fecha,tiempo_transcurrido,cantidad_letras_adivinadas) VALUES ($id_usuario, $gano, $intentos_disponibles,$fecha, $tiempo_transcurrido, $cantidad_letras_adivinadas)";
-                    command.Parameters.AddWithValue("$id_usuario", partida.UserId);
-                    command.Parameters.AddWithValue("$gano", partida.Gano);
-                    command.Parameters.AddWithValue("$intentos_disponibles", partida.Intentos_disponibles);
-                    command.Parameters.AddWithValue("$fecha", partida.StartDate.ToString("o"));
-                    command.Parameters.AddWithValue("$tiempo_transcurrido", partida.Tiempo_transcurrido);
-                    command.Parameters.AddWithValue("$cantidad_letras_adivinadas", partida.Cantidad_letras_adivinadas);
-                    id = command.ExecuteNonQuery();
+                    using (SqliteConnection connection = new(getConnectionString()))
+                    {
+                        connection.Open();
+                        var command = connection.CreateCommand();
+                        command.CommandText = "INSERT INTO partidas (id_usuario,gano,intentos_disponibles,fecha,tiempo_transcurrido,cantidad_letras_adivinadas) VALUES ($id_usuario, $gano, $intentos_disponibles,$fecha, $tiempo_transcurrido, $cantidad_letras_adivinadas)";
+                        command.Parameters.AddWithValue("$id_usuario", partida.UserId);
+                        command.Parameters.AddWithValue("$gano", partida.Gano);
+                        command.Parameters.AddWithValue("$intentos_disponibles", partida.Intentos_disponibles);
+                        command.Parameters.AddWithValue("$fecha", partida.StartDate.ToString("o"));
+                        command.Parameters.AddWithValue("$tiempo_transcurrido", partida.Tiempo_transcurrido);
+                        command.Parameters.AddWithValue("$cantidad_letras_adivinadas", partida.Cantidad_letras_adivinadas);
+                        id = command.ExecuteNonQuery();
+                    }
                 }
-                Console.WriteLine(id);
+                else
+                {
+                    id = 0;
+                }
+                    Console.WriteLine(id);
+                
                 return id;
             }
             catch
