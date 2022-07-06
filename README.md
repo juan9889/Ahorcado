@@ -28,3 +28,7 @@
 <a href="">
 <img src="https://sonarcloud.io/api/project_badges/measure?project=juan9889_Ahorcado&metric=ncloc" width="15%">
 </a>
+
+<br />
+
+<a href="http://168.197.48.101">Jugar</a>
