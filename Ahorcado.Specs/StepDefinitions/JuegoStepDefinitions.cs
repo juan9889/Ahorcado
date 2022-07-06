@@ -7,7 +7,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
     [Binding]
     public class JuegoStepDefinitions
     {
-        readonly string test_url = "https://localhost:7134";
+        readonly string test_url = "http://168.197.48.101";
         readonly IWebDriver driver;
 
         private readonly ScenarioContext context;
