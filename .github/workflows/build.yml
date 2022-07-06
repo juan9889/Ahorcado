@@ -48,6 +48,7 @@ jobs:
   test:
     name: Test
     runs-on: windows-latest
+    needs: build
     steps:
       - name: test
         run: |
@@ -55,7 +56,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: windows-latest
-    needs: build
+    needs: build, test
     steps:
       - name: Deploy to server
         uses: garygrossgarten/github-action-ssh@release
