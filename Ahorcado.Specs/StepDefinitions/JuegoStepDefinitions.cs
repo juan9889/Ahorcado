@@ -53,6 +53,10 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         {
             IWebElement probarButton = driver.FindElement(By.Id("btn_probar_letra"));
             IWebElement letra_field = driver.FindElement(By.Id("txt_letra_a_probar"));
+            if (letra_field.Displayed)
+            {
+                Console.WriteLine("HAY UN FIELD PARA LETRAS");
+            }
             letra_field.SendKeys("A");
             probarButton.Click();
             letra_field.SendKeys("R");
