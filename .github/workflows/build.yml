@@ -44,8 +44,8 @@ jobs:
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"juan9889_Ahorcado" /o:"juan9889" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build --no-incremental
-          cd Ahorcado.UI
-          start /b dotnet run
+          
+          start /b dotnet Ahorcado.UI/bin/Debug/net6.0/Ahorcado.UI.dll
           ping 127.0.0.1 -n 6 > nul
           cd ../
           dotnet test --collect "Code Coverage"
