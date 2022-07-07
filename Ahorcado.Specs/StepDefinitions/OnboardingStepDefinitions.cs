@@ -22,13 +22,13 @@ namespace Ahorcado.Specs.StepDefinitions
             driver = new ChromeDriver(chromeOptions);
 
             driver.Manage().Window.Maximize();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
             driver.Url = test_url;
         }
 
         [Given(@"I entered (.*) in the username field")]
         public void GivenIEnteredInTheUsernameField(string username)
         {
-            Thread.Sleep(2000);
             IWebElement usernameField = driver.FindElement(By.Id("txt_nombreusuario"));
             usernameField.Click();
             usernameField.SendKeys(username);

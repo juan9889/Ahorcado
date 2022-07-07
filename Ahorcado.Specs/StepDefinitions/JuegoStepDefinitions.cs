@@ -22,23 +22,21 @@ namespace Ahorcado.UI.Specs.StepDefinitions
             driver = new ChromeDriver(chromeOptions);
 
             driver.Manage().Window.Maximize();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
             driver.Url = test_url;
         }
 
         [Given(@"I logged in with credentials (.*) and (.*)")]
         public void GivenILoggedIn(string username, string password)
         {
-            Thread.Sleep(2000);
             IWebElement usernameField = driver.FindElement(By.Id("txt_nombreusuario"));
             usernameField.Click();
             usernameField.SendKeys(username);
             IWebElement passwordField = driver.FindElement(By.Id("txt_password"));
             passwordField.Click();
             passwordField.SendKeys(password);
-            Thread.Sleep(2000);
             IWebElement loginButton = driver.FindElement(By.Id("btn_login"));
             loginButton.Click();
-            Thread.Sleep(3000);
         }
 
         [Given(@"I start a new game on Easy difficulty")]
@@ -46,7 +44,6 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         {
             IWebElement elegirFacilButton = driver.FindElement(By.Id("btn_elegir_facil"));
             elegirFacilButton.Click();
-            Thread.Sleep(2000);
         }
 
         [When(@"I type all the letters in ARBOL")]
@@ -60,19 +57,14 @@ namespace Ahorcado.UI.Specs.StepDefinitions
             }
             letra_field.SendKeys("A");
             probarButton.Click();
-            Thread.Sleep(200);
             letra_field.SendKeys("R");
             probarButton.Click();
-            Thread.Sleep(200);
             letra_field.SendKeys("B");
             probarButton.Click();
-            Thread.Sleep(200);
             letra_field.SendKeys("O");
             probarButton.Click();
-            Thread.Sleep(200);
             letra_field.SendKeys("L");
             probarButton.Click();
-            Thread.Sleep(2000);
         }
 
         [Then(@"It should display a victory message")]
