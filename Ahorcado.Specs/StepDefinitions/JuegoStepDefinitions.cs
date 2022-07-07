@@ -59,14 +59,19 @@ namespace Ahorcado.UI.Specs.StepDefinitions
             }
             letra_field.SendKeys("A");
             probarButton.Click();
+            Thread.Sleep(200);
             letra_field.SendKeys("R");
             probarButton.Click();
+            Thread.Sleep(200);
             letra_field.SendKeys("B");
             probarButton.Click();
+            Thread.Sleep(200);
             letra_field.SendKeys("O");
             probarButton.Click();
+            Thread.Sleep(200);
             letra_field.SendKeys("L");
             probarButton.Click();
+            Thread.Sleep(2000);
         }
 
         [Then(@"It should display a victory message")]
