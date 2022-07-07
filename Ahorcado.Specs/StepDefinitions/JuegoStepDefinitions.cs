@@ -35,6 +35,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
             IWebElement passwordField = driver.FindElement(By.Id("txt_password"));
             passwordField.Click();
             passwordField.SendKeys(password);
+            Thread.Sleep(2000);
             IWebElement loginButton = driver.FindElement(By.Id("btn_login"));
             loginButton.Click();
             Thread.Sleep(3000);
