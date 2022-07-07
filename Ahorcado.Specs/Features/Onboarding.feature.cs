@@ -35,8 +35,8 @@ namespace Ahorcado.UI.Specs.Features
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Onboarding", "\tLogin existing users\n\tRegister new users\n\tEnable buttons when credential conditi" +
-                    "ons are met\n\tDisable buttons if not", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Onboarding", "\tLogin existing users\r\n\tRegister new users\r\n\tEnable buttons when credential condi" +
+                    "tions are met\r\n\tDisable buttons if not", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
