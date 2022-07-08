@@ -50,7 +50,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         [When(@"I type all the letters in the correct word")]
         public void WhenITypeAllTheLettersInARBOL()
         {
-            Thread.Sleep(15000);
+            Thread.Sleep(30000);
             IWebElement probarButton = driver.FindElement(By.Id("btn_probar_letra"));
             IWebElement letra_field = driver.FindElement(By.Id("txt_letra_a_probar"));
 
