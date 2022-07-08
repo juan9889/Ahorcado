@@ -104,14 +104,8 @@ else
         }
         if (usuario is not null)
         {
-            if (diff == Juego.Difficulty.Facil)
-            {
-                juego = new("ARBOL");
-            }
-            else
-            {
-                juego = new(diff, usuario.ID);
-            }
+            juego = new(diff, usuario.ID);
+            palabra_correcta = juego.Palabra;
             loading = false;
             StateHasChanged();
         }

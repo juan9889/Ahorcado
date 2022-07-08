@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace Ahorcado.Specs.StepDefinitions
 {
@@ -18,18 +19,17 @@ namespace Ahorcado.Specs.StepDefinitions
 
             ChromeOptions chromeOptions = new();
             chromeOptions.AddArguments("--ignore-certificate-errors");
-            chromeOptions.AddArgument("no-sandbox");
+            //chromeOptions.AddArgument("no-sandbox");
             driver = new ChromeDriver(chromeOptions);
 
             driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(15);
             driver.Url = test_url;
-            Thread.Sleep(2000);
         }
 
         [Given(@"I entered (.*) in the username field")]
         public void GivenIEnteredInTheUsernameField(string username)
         {
+            Thread.Sleep(5000);
             IWebElement usernameField = driver.FindElement(By.Id("txt_nombreusuario"));
             usernameField.Click();
             usernameField.SendKeys(username);
