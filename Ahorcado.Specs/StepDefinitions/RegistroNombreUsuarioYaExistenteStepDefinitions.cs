@@ -1,19 +1,19 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
 
-namespace Ahorcado.Specs.StepDefinitions
+namespace Ahorcado.UI.Specs.StepDefinitions
 {
     [Binding]
-    public class OnboardingStepDefinitions
+    [Scope(Feature = "RegistroNombreUsuarioYaExistente")]
+    public class RegistroNombreUsuarioYaExistenteStepDefinitions
     {
         readonly string test_url = "https://localhost:7134";
         readonly IWebDriver driver;
 
         private readonly ScenarioContext context;
 
-        public OnboardingStepDefinitions(ScenarioContext injectedContext)
+        public RegistroNombreUsuarioYaExistenteStepDefinitions(ScenarioContext injectedContext)
         {
             context = injectedContext;
 
@@ -43,19 +43,19 @@ namespace Ahorcado.Specs.StepDefinitions
             passwordField.SendKeys(password);
         }
 
-        [Then(@"Buttons should be enabled")]
-        public void ThenButtonsShouldBeEnabled()
+        [When(@"I click the Register button")]
+        public void WhenIClickTheRegisterButton()
         {
-            IWebElement loginButton = driver.FindElement(By.Id("btn_login"));
             IWebElement registerButton = driver.FindElement(By.Id("btn_registro"));
-
-            Assert.That(loginButton.Enabled, Is.True);
-            Assert.That(registerButton.Enabled, Is.True);
+            registerButton.Click();
         }
 
-        [Then(@"Close the browser")]
-        public void ThenCloseTheBrowser()
+        [Then(@"I should get an error message saying username is already registered")]
+        public void ThenIShouldGetAnErrorMessageSayingUsernameIsAlreadyRegistered()
         {
+            Thread.Sleep(15000);
+            IWebElement alert_usuario_ya_registrado = driver.FindElement(By.Id("alert_nombre_usuario_ya_registrado"));
+            Assert.IsNotNull(alert_usuario_ya_registrado);
             driver.Close();
         }
     }

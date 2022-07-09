@@ -26,13 +26,13 @@ else
             <div class="card-body">
                 @if (error_autenticacion)
                 {
-                    <alert class="alert alert-danger">Datos incorrectos</alert>
+                    <alert id="alert_datos_incorrectos" class="alert alert-danger">Datos incorrectos</alert>
                     <br />
                     <br />
                 }
                 else if (error_registro)
                 {
-                    <alert class="alert alert-danger">Nombre de usuario ya existe.</alert>
+                    <alert id="alert_nombre_usuario_ya_registrado" class="alert alert-danger">Nombre de usuario ya existe.</alert>
                     <br />
                     <br />
                 }

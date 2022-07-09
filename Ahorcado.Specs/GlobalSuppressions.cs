@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Major Code Smell", "S125:Sections of code should not be commented out", Justification = "<Pending>", Scope = "member", Target = "~M:Ahorcado.Specs.StepDefinitions.OnboardingStepDefinitions.#ctor(TechTalk.SpecFlow.ScenarioContext)")]
+[assembly: SuppressMessage("Major Code Smell", "S125:Sections of code should not be commented out", Justification = "<Pending>", Scope = "member", Target = "~M:Ahorcado.Specs.StepDefinitions.LoginValidationStepDefinitions.#ctor(TechTalk.SpecFlow.ScenarioContext)")]

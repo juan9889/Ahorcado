@@ -5,14 +5,15 @@ using OpenQA.Selenium.Chrome;
 namespace Ahorcado.UI.Specs.StepDefinitions
 {
     [Binding]
-    public class JuegoStepDefinitions
+    [Scope(Feature = "CargaHistorialPartidas")]
+    public class CargaHistorialPartidasStepDefinitions
     {
         readonly string test_url = "https://localhost:7134";
         readonly IWebDriver driver;
 
         private readonly ScenarioContext context;
 
-        public JuegoStepDefinitions(ScenarioContext injectedContext)
+        public CargaHistorialPartidasStepDefinitions(ScenarioContext injectedContext)
         {
             context = injectedContext;
 
@@ -39,36 +40,20 @@ namespace Ahorcado.UI.Specs.StepDefinitions
             loginButton.Click();
         }
 
-        [Given(@"I start a new game on Easy difficulty")]
-        public void GivenIStartANewGameOnJuego_Difficulty_FacilDifficulty()
+        [When(@"I click on the Game History button")]
+        public void WhenIClickOnTheGameHistoryButton()
         {
             Thread.Sleep(5000);
-            IWebElement elegirFacilButton = driver.FindElement(By.Id("btn_elegir_facil"));
-            elegirFacilButton.Click();
+            IWebElement navHistoryButton = driver.FindElement(By.Id("btn-nav-history"));
+            navHistoryButton.Click();
         }
 
-        [When(@"I type all the letters in the correct word")]
-        public void WhenITypeAllTheLettersInARBOL()
+        [Then(@"It should display the user game history")]
+        public void ThenItShouldDisplayTheUserGameHistory()
         {
-            Thread.Sleep(30000);
-            IWebElement probarButton = driver.FindElement(By.Id("btn_probar_letra"));
-            IWebElement letra_field = driver.FindElement(By.Id("txt_letra_a_probar"));
-
-            string palabra_correcta = driver.FindElement(By.Id("txt_palabra_correcta")).GetAttribute("value");
-            char[] charArray = palabra_correcta.ToCharArray();
-            foreach(char c in charArray)
-            {
-                letra_field.SendKeys(c.ToString());
-                probarButton.Click();
-            }
-        }
-
-        [Then(@"It should display a victory message")]
-        public void ThenItShouldDisplayAVictoryMessage()
-        {
-            Thread.Sleep(5000);
-            IWebElement alert_ganaste = driver.FindElement(By.Id("alert"));
-            Assert.AreEqual("ganaste", alert_ganaste.GetAttribute("value"));
+            Thread.Sleep(15000);
+            IWebElement alert_datos_incorrectos = driver.FindElement(By.Id("table-partidas"));
+            Assert.IsNotNull(alert_datos_incorrectos);
             driver.Close();
         }
     }
