@@ -44,7 +44,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         [When(@"I click on the Game History button")]
         public void WhenIClickOnTheGameHistoryButton()
         {
-            Thread.Sleep(10000);
+            Thread.Sleep(30000);
             IWebElement navHistoryButton = driver.FindElement(By.Id("btn-nav-history"));
             navHistoryButton.Click();
         }
