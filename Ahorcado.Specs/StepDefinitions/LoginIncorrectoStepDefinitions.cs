@@ -29,7 +29,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         [Given(@"I entered a GUID in the username field")]
         public void GivenIEnteredAGUIDInTheUsernameField()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
             IWebElement usernameField = driver.FindElement(By.Id("txt_nombreusuario"));
             usernameField.Click();
             usernameField.SendKeys("33afcef7-b1fd-467c-a555-8119a28f7c7c");
@@ -46,6 +46,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         [When(@"I click on the Login button")]
         public void WhenIClickTheLoginButton()
         {
+            Thread.Sleep(10000);
             IWebElement loginButton = driver.FindElement(By.Id("btn_login"));
             loginButton.Click();
         }

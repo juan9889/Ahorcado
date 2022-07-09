@@ -29,13 +29,14 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         [Given(@"I logged in with credentials (.*) and (.*)")]
         public void GivenILoggedIn(string username, string password)
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
             IWebElement usernameField = driver.FindElement(By.Id("txt_nombreusuario"));
             usernameField.Click();
             usernameField.SendKeys(username);
             IWebElement passwordField = driver.FindElement(By.Id("txt_password"));
             passwordField.Click();
             passwordField.SendKeys(password);
+            Thread.Sleep(5000);
             IWebElement loginButton = driver.FindElement(By.Id("btn_login"));
             loginButton.Click();
         }
@@ -43,7 +44,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         [Given(@"I start a new game on Easy difficulty")]
         public void GivenIStartANewGameOnJuego_Difficulty_FacilDifficulty()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
             IWebElement elegirFacilButton = driver.FindElement(By.Id("btn_elegir_facil"));
             elegirFacilButton.Click();
         }
@@ -76,7 +77,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         [Then(@"It should display a defeat message")]
         public void ThenItShouldDisplayADefeatMessage()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
             IWebElement alert_perdiste = driver.FindElement(By.Id("alert"));
             Assert.AreEqual("perdiste", alert_perdiste.GetAttribute("value"));
             driver.Close();

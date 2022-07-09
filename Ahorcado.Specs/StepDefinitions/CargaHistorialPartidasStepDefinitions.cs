@@ -36,6 +36,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
             IWebElement passwordField = driver.FindElement(By.Id("txt_password"));
             passwordField.Click();
             passwordField.SendKeys(password);
+            Thread.Sleep(5000);
             IWebElement loginButton = driver.FindElement(By.Id("btn_login"));
             loginButton.Click();
         }
@@ -43,7 +44,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         [When(@"I click on the Game History button")]
         public void WhenIClickOnTheGameHistoryButton()
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
             IWebElement navHistoryButton = driver.FindElement(By.Id("btn-nav-history"));
             navHistoryButton.Click();
         }
@@ -51,7 +52,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         [Then(@"It should display the user game history")]
         public void ThenItShouldDisplayTheUserGameHistory()
         {
-            Thread.Sleep(15000);
+            Thread.Sleep(30000);
             IWebElement alert_datos_incorrectos = driver.FindElement(By.Id("table-partidas"));
             Assert.IsNotNull(alert_datos_incorrectos);
             driver.Close();

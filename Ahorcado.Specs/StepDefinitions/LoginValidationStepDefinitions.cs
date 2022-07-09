@@ -29,7 +29,7 @@ namespace Ahorcado.Specs.StepDefinitions
         [Given(@"I entered (.*) in the username field")]
         public void GivenIEnteredInTheUsernameField(string username)
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
             IWebElement usernameField = driver.FindElement(By.Id("txt_nombreusuario"));
             usernameField.Click();
             usernameField.SendKeys(username);
@@ -48,7 +48,7 @@ namespace Ahorcado.Specs.StepDefinitions
         {
             IWebElement loginButton = driver.FindElement(By.Id("btn_login"));
             IWebElement registerButton = driver.FindElement(By.Id("btn_registro"));
-
+            Thread.Sleep(10000);
             Assert.That(loginButton.Enabled, Is.True);
             Assert.That(registerButton.Enabled, Is.True);
         }
