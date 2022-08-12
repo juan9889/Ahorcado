@@ -59,7 +59,7 @@ public class JuegoTest
         juego.ProbarLetra('H');
         Assert.Equal(0, juego.IntentosDisponibles);
         char[] a = { 'A', 'R', 'B', 'O', '_' };
-        Assert.Equal(a, juego.PalabraAdivinada);
+        Assert.Equal(a, juego.PalabraAdivinada); 
         Assert.Equal(Juego.Status.Derrota, juego.CheckResultado());
     }
 
