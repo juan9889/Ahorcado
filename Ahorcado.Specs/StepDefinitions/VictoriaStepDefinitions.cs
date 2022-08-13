@@ -58,6 +58,8 @@ namespace Ahorcado.UI.Specs.StepDefinitions
 
             string palabra_correcta = driver.FindElement(By.Id("txt_palabra_correcta")).GetAttribute("value");
             char[] charArray = palabra_correcta.ToCharArray();
+            char[] distinct_charArray = charArray.Distinct().ToArray();
+            charArray = distinct_charArray;
             foreach(char c in charArray)
             {
                 Thread.Sleep(1000);
