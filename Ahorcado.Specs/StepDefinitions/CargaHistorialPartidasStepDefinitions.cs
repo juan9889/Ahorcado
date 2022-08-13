@@ -29,7 +29,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         [Given(@"I logged in with credentials (.*) and (.*)")]
         public void GivenILoggedIn(string username, string password)
         {
-            Thread.Sleep(5000);
+            Thread.Sleep(15000);
             IWebElement usernameField = driver.FindElement(By.Id("txt_nombreusuario"));
             usernameField.Click();
             usernameField.SendKeys(username);
