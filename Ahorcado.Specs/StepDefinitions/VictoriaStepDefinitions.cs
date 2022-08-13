@@ -60,6 +60,7 @@ namespace Ahorcado.UI.Specs.StepDefinitions
             char[] charArray = palabra_correcta.ToCharArray();
             foreach(char c in charArray)
             {
+                Thread.Sleep(1000);
                 letra_field.SendKeys(c.ToString());
                 probarButton.Click();
             }

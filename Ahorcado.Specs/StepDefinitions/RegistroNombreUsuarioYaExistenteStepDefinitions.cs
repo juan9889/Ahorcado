@@ -31,16 +31,34 @@ namespace Ahorcado.UI.Specs.StepDefinitions
         {
             Thread.Sleep(10000);
             IWebElement usernameField = driver.FindElement(By.Id("txt_nombreusuario"));
+            Thread.Sleep(500);
             usernameField.Click();
-            usernameField.SendKeys(username);
+            char[] username_chars = username.ToCharArray();
+            foreach(char c in username_chars)
+            {
+                Thread.Sleep(500);
+                usernameField.SendKeys(c.ToString());
+            }
+            Thread.Sleep(500);
+            //usernameField.SendKeys(username);
         }
 
         [Given(@"I entered (.*) in the password field")]
         public void GivenIEnteredInThePasswordField(string password)
         {
+            Thread.Sleep(500);
             IWebElement passwordField = driver.FindElement(By.Id("txt_password"));
+            Thread.Sleep(500);
             passwordField.Click();
-            passwordField.SendKeys(password);
+            Thread.Sleep(500);
+            char[] pass_chars = password.ToCharArray();
+            foreach (char c in pass_chars)
+            {
+                Thread.Sleep(500);
+                passwordField.SendKeys(c.ToString());
+            }
+            Thread.Sleep(500);
+            //passwordField.SendKeys(password);
         }
 
         [When(@"I click the Register button")]
