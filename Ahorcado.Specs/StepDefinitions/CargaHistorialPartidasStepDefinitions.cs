@@ -32,10 +32,25 @@ namespace Ahorcado.UI.Specs.StepDefinitions
             Thread.Sleep(15000);
             IWebElement usernameField = driver.FindElement(By.Id("txt_nombreusuario"));
             usernameField.Click();
-            usernameField.SendKeys(username);
+            //usernameField.SendKeys(username);
+            char[] username_chars = username.ToArray();
+            foreach(char c in username_chars)
+            {
+                Thread.Sleep(500);
+                usernameField.SendKeys(c.ToString());
+            }
+            Thread.Sleep(500);
             IWebElement passwordField = driver.FindElement(By.Id("txt_password"));
+            Thread.Sleep(500);
             passwordField.Click();
-            passwordField.SendKeys(password);
+            Thread.Sleep(500);
+            char[] pass_chars = password.ToCharArray();
+            foreach(char c in pass_chars)
+            {
+                Thread.Sleep(500);
+                passwordField.SendKeys(c.ToString());
+            }
+            //passwordField.SendKeys(password);
             Thread.Sleep(5000);
             IWebElement loginButton = driver.FindElement(By.Id("btn_login"));
             loginButton.Click();
