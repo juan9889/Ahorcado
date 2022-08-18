@@ -77,7 +77,7 @@ public class JuegoTest
         juego.ProbarLetra('L');
 
         Assert.Equal(Juego.Status.Victoria, juego.CheckResultado());
-        Assert.InRange((juego.EndTime - juego.StartTime).TotalSeconds, 2, 3);
+        Assert.InRange((juego.EndTime - juego.StartTime).TotalSeconds, 1, 4);
     }
 
     [Fact]
