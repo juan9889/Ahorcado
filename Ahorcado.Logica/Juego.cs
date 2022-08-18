@@ -36,7 +36,7 @@ public class Juego
     {
         _TestGame = true;
         StartTime = DateTime.Now;
-        Palabra = _palabra;
+        Palabra = _palabra+"hola";
         PalabraAdivinada = new char[_palabra.Length];
         Letras = new char[_palabra.Length];
         for (int a = 0; a < Palabra.Length; a++)
